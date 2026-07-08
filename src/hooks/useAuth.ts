@@ -1,11 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { useAuthStore } from '@/stores';
-import type { LoginCredentials, LoginResponse, ApiResponse } from '@/lib/auth-types';
+import type { LoginResponse, ApiResponse } from '@/lib/auth-types';
+import type { LoginSchema } from '@/lib/auth-schema';
 
 // Login mutation
 export function useLogin() {
-  return useMutation<ApiResponse<LoginResponse>, Error, LoginCredentials>({
+  return useMutation<ApiResponse<LoginResponse>, Error, LoginSchema>({
     mutationFn: async (credentials) => {
       const { data } = await api.post<ApiResponse<LoginResponse>>('/auth/login', credentials);
       return data;
