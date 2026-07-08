@@ -1,5 +1,204 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Design Tokens — sourced from design_system.fig (OpenPencil)
+   ============================================================ */
+
+:root {
+  /* -- Colors: Neutral ---------------------------------------- */
+  --design-black: #222222;
+  --design-white: #FFFFFF;
+
+  /* -- Colors: Gray ------------------------------------------- */
+  --design-gray-100: #F7F7F7;
+  --design-gray-200: #E8E8E8;
+  --design-gray-300: #D1D1D1;
+  --design-gray-400: #A9A9A9;
+  --design-gray-500: #8F8F8F;
+  --design-gray-600: #6B6B6B;
+  --design-gray-700: #4A4A4A;
+  --design-gray-800: #333333;
+  --design-gray-900: #1A1A1A;
+
+  /* -- Colors: Blue ------------------------------------------- */
+  --design-blue-100: #E8F1FB;
+  --design-blue-200: #C5D9F3;
+  --design-blue-300: #9BBEEB;
+  --design-blue-400: #6A9DE0;
+  --design-blue-500: #2977DC;
+  --design-blue-600: #2263B5;
+  --design-blue-700: #1B4F96;
+  --design-blue-800: #153B73;
+  --design-blue-900: #0F2B54;
+
+  /* -- Colors: Green ------------------------------------------ */
+  --design-green-100: #DCFCE7;
+  --design-green-200: #BBF7D0;
+  --design-green-300: #78E7A0;
+  --design-green-400: #34D399;
+  --design-green-500: #22C55E;
+  --design-green-600: #16A34A;
+  --design-green-700: #15803D;
+  --design-green-800: #166534;
+  --design-green-900: #14532D;
+
+  /* -- Colors: Orange ----------------------------------------- */
+  --design-orange-100: #FFF7ED;
+  --design-orange-200: #FEE8DF;
+  --design-orange-300: #FED7AA;
+  --design-orange-400: #FDBA74;
+  --design-orange-500: #F97316;
+  --design-orange-600: #EA580C;
+  --design-orange-700: #C2410C;
+  --design-orange-800: #9A3412;
+  --design-orange-900: #7C2D12;
+
+  /* -- Colors: Purple ----------------------------------------- */
+  --design-purple-100: #F3E8FF;
+  --design-purple-200: #E9D5FF;
+  --design-purple-300: #D8B4FE;
+  --design-purple-400: #C084FC;
+  --design-purple-500: #A855F7;
+  --design-purple-600: #9140D9;
+  --design-purple-700: #7E22CE;
+  --design-purple-800: #6B21A8;
+  --design-purple-900: #581C87;
+
+  /* -- Colors: Red -------------------------------------------- */
+  --design-red-100: #FDE8E8;
+  --design-red-200: #FECFCA;
+  --design-red-300: #FDA5A5;
+  --design-red-400: #EF4444;
+  --design-red-500: #D92020;
+  --design-red-600: #B91C1C;
+  --design-red-700: #991B1B;
+  --design-red-800: #7F1D1D;
+  --design-red-900: #6B1A1A;
+
+  /* -- Colors: Yellow ----------------------------------------- */
+  --design-yellow-100: #FEFCE8;
+  --design-yellow-200: #FEF9C3;
+  --design-yellow-300: #FEF08A;
+  --design-yellow-400: #FACC15;
+  --design-yellow-500: #EAB308;
+  --design-yellow-600: #CA8A04;
+  --design-yellow-700: #A16207;
+  --design-yellow-800: #854D0E;
+  --design-yellow-900: #713F12;
+
+  /* -- Semantic Colors (mapped from palette) ------------------ */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 214 73% 51%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 222 47% 97%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 222 47% 97%;
+  --muted-foreground: 222 47% 56%;
+  --accent: 214 92% 89%;
+  --accent-foreground: 214 73% 43%;
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 222 47% 91%;
+  --input: 222 47% 91%;
+  --ring: 214 73% 51%;
+
+  /* -- Typography --------------------------------------------- */
+  --font-family: 'Pretendard', system-ui, -apple-system, sans-serif;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+
+  --font-weight-thin: 100;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* -- Spacing (4px base grid) -------------------------------- */
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-32: 128px;
+
+  /* -- Border Radius ------------------------------------------ */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* -- Shadow ------------------------------------------------- */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* -- Transition --------------------------------------------- */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* -- Z-Index ------------------------------------------------ */
+  --z-100: 100;
+  --z-200: 200;
+  --z-300: 400;
+  --z-400: 400;
+  --z-500: 500;
+  --z-600: 600;
+  --z-700: 700;
+  --z-800: 800;
+  --z-900: 900;
+  --z-max: 9999;
+
+  /* -- Gradient ----------------------------------------------- */
+  --gradient-primary: linear-gradient(135deg, #2977DC, #6A9DE0);
+  --gradient-subtle: linear-gradient(135deg, rgba(41,119,220,0.1), rgba(106,157,224,0.1));
+  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(240,244,248,0.8));
+
+  /* -- Glow --------------------------------------------------- */
+  --glow-blue: 0 0 20px rgba(41, 119, 220, 0.3);
+  --glow-text-blue: 0 0 30px rgba(41, 119, 220, 0.2);
+
+  /* -- Card --------------------------------------------------- */
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --card-hover-shadow: 0 4px 12px rgba(41,119,220,0.15);
+}
+
+/* ============================================================
+   Tailwind v4 Theme Extension (shadcn/ui compatibility)
+   ============================================================ */
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -20,10 +219,90 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Design palette colors for Tailwind utility usage */
+  --color-blue-100: var(--design-blue-100);
+  --color-blue-200: var(--design-blue-200);
+  --color-blue-300: var(--design-blue-300);
+  --color-blue-400: var(--design-blue-400);
+  --color-blue-500: var(--design-blue-500);
+  --color-blue-600: var(--design-blue-600);
+  --color-blue-700: var(--design-blue-700);
+  --color-blue-800: var(--design-blue-800);
+  --color-blue-900: var(--design-blue-900);
+
+  --color-gray-100: var(--design-gray-100);
+  --color-gray-200: var(--design-gray-200);
+  --color-gray-300: var(--design-gray-300);
+  --color-gray-400: var(--design-gray-400);
+  --color-gray-500: var(--design-gray-500);
+  --color-gray-600: var(--design-gray-600);
+  --color-gray-700: var(--design-gray-700);
+  --color-gray-800: var(--design-gray-800);
+  --color-gray-900: var(--design-gray-900);
+
+  --color-green-100: var(--design-green-100);
+  --color-green-200: var(--design-green-200);
+  --color-green-300: var(--design-green-300);
+  --color-green-400: var(--design-green-400);
+  --color-green-500: var(--design-green-500);
+  --color-green-600: var(--design-green-600);
+  --color-green-700: var(--design-green-700);
+  --color-green-800: var(--design-green-800);
+  --color-green-900: var(--design-green-900);
+
+  --color-orange-100: var(--design-orange-100);
+  --color-orange-200: var(--design-orange-200);
+  --color-orange-300: var(--design-orange-300);
+  --color-orange-400: var(--design-orange-400);
+  --color-orange-500: var(--design-orange-500);
+  --color-orange-600: var(--design-orange-600);
+  --color-orange-700: var(--design-orange-700);
+  --color-orange-800: var(--design-orange-800);
+  --color-orange-900: var(--design-orange-900);
+
+  --color-purple-100: var(--design-purple-100);
+  --color-purple-200: var(--design-purple-200);
+  --color-purple-300: var(--design-purple-300);
+  --color-purple-400: var(--design-purple-400);
+  --color-purple-500: var(--design-purple-500);
+  --color-purple-600: var(--design-purple-600);
+  --color-purple-700: var(--design-purple-700);
+  --color-purple-800: var(--design-purple-800);
+  --color-purple-900: var(--design-purple-900);
+
+  --color-red-100: var(--design-red-100);
+  --color-red-200: var(--design-red-200);
+  --color-red-300: var(--design-red-300);
+  --color-red-400: var(--design-red-400);
+  --color-red-500: var(--design-red-500);
+  --color-red-600: var(--design-red-600);
+  --color-red-700: var(--design-red-700);
+  --color-red-800: var(--design-red-800);
+  --color-red-900: var(--design-red-900);
+
+  --color-yellow-100: var(--design-yellow-100);
+  --color-yellow-200: var(--design-yellow-200);
+  --color-yellow-300: var(--design-yellow-300);
+  --color-yellow-400: var(--design-yellow-400);
+  --color-yellow-500: var(--design-yellow-500);
+  --color-yellow-600: var(--design-yellow-600);
+  --color-yellow-700: var(--design-yellow-700);
+  --color-yellow-800: var(--design-yellow-800);
+  --color-yellow-900: var(--design-yellow-900);
+
+  /* Gradient / Glow / Shadow tokens */
+  --color-gradient-primary: var(--gradient-primary);
+  --color-glow-blue: var(--glow-blue);
+  --color-card-shadow: var(--card-shadow);
+
+  /* Radius tokens */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-fade-in: fade-in 0.2s ease-out;
@@ -57,52 +336,9 @@
   }
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
-}
+/* ============================================================
+   Base Layer
+   ============================================================ */
 
 @layer base {
   * {
@@ -113,6 +349,39 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     margin: 0;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Card */
+  .card {
+    background-color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Blue glow */
+  .glow-blue {
+    box-shadow: var(--glow-blue);
   }
 }
