@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router'
 import { LoginPage } from '@/pages/LoginPage'
+import { PerformanceListPage } from '@/pages/PerformanceListPage'
 import { useAuthStore } from '@/stores'
 
 export function AppRoutes() {
@@ -21,7 +22,7 @@ export function AppRoutes() {
     <Routes>
       <Route path="/" element={<div>J-One Worship</div>} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/performances" element={<div>Performances</div>} />
+      <Route path="/performances" element={<PerformanceListPage />} />
       <Route path="*" element={<div>404 - Not Found</div>} />
     </Routes>
   )
