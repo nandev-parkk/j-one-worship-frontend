@@ -29,3 +29,15 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ token: null, refreshToken: null, user: null });
   },
 }));
+
+interface SidebarState {
+  open: boolean;
+  toggle: () => void;
+  close: () => void;
+}
+
+export const useSidebarStore = create<SidebarState>((set) => ({
+  open: false,
+  toggle: () => set((state) => ({ open: !state.open })),
+  close: () => set({ open: false }),
+}));
