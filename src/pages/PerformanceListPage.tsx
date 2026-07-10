@@ -3,10 +3,11 @@ import { Link, useSearchParams } from 'react-router';
 import { MainLayout } from '@/components/ui/MainLayout';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { PerformanceCard } from '@/components/ui/PerformanceCard';
 import { PerformanceFilters } from '@/components/ui/PerformanceFilters';
 import { PerformancePagination } from '@/components/ui/PerformancePagination';
-import { useListPerformances } from '@/hooks/usePerformances';
+import { useListPerformances, useDeletePerformance } from '@/hooks/usePerformances';
 import type { PerformanceStatus } from '@/lib/performance-types';
 import { useAuthStore } from '@/stores';
 
@@ -44,6 +45,26 @@ export const PerformanceListPage = () => {
     setSearch(newSearch);
     setStatus(newStatus);
   }, [setPage]);
+
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const deleteMutation = useDeletePerformance();
+
+  const handleDeleteConfirm = useCallback(() => {
+    if (deleteConfirmId === null) return;
+    deleteMutation.mutate(deleteConfirmId, {
+      onSuccess: () => {
+        setDeleteConfirmId(null);
+      },
+    });
+  }, [deleteConfirmId, deleteMutation]);
+
+  const canDelete = useCallback(
+    (_performanceId: number) => {
+      if (!user || user.role !== 'admin') return false;
+      return true;
+    },
+    [user],
+  );
 
   const items = data?.data ?? [];
   const meta = data?.meta;
@@ -95,13 +116,43 @@ export const PerformanceListPage = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {items.map((performance) => (
-              <PerformanceCard key={performance.id} performance={performance} />
+              <PerformanceCard
+                key={performance.id}
+                performance={performance}
+                canDelete={canDelete(performance.id)}
+                onDelete={(id) => setDeleteConfirmId(id)}
+              />
             ))}
           </div>
         )}
 
         {meta && meta.total > 0 && meta.totalPages > 1 && <PerformancePagination meta={meta} onPageChange={setPage} />}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteConfirmId !== null}
+        onOpenChange={(open) => !open && setDeleteConfirmId(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>공연 삭제</DialogTitle>
+          </DialogHeader>
+          <p style={{ color: '#5A5A5A' }}>정말로 이 공연을 삭제하시겠습니까?</p>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="outline" onClick={() => setDeleteConfirmId(null)}>
+              취소
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteConfirm}
+              disabled={deleteMutation.isPending}
+            >
+              삭제
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </MainLayout>
   );
 };
