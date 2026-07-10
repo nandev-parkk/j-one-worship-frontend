@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router'
 import { LoginPage } from '@/pages/LoginPage'
 import { PerformanceListPage } from '@/pages/PerformanceListPage'
+import { YouTubeVideoListPage } from '@/pages/YouTubeVideoListPage'
+import { PerformanceDetailPage } from '@/pages/PerformanceDetailPage'
+import { PerformanceCreatePage } from '@/pages/PerformanceCreatePage'
 import { useAuthStore } from '@/stores'
 
 export function AppRoutes() {
@@ -20,9 +23,12 @@ export function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<div>J-One Worship</div>} />
+      <Route path="/" element={<Navigate to="/performances" replace />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/performances" element={<PerformanceListPage />} />
+      <Route path="/performances/create" element={<PerformanceCreatePage />} />
+      <Route path="/youtube-videos" element={<YouTubeVideoListPage />} />
+      <Route path="/performances/:id" element={<PerformanceDetailPage />} />
       <Route path="*" element={<div>404 - Not Found</div>} />
     </Routes>
   )
