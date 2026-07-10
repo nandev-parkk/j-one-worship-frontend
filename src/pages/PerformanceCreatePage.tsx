@@ -83,17 +83,20 @@ export const PerformanceCreatePage: React.FC = () => {
         navigate('/performances');
       },
       onError: (error) => {
-        const serverMessage = error.response?.data?.error?.message;
-        if (serverMessage) {
-          setFieldError(serverMessage);
-          return;
+        const axiosError = error as {
+          response?: { data?: { error?: { message?: string } }; status?: number }
         }
-        if (!error.response) {
-          setFieldError('네트워크 연결을 확인해 주세요.');
-        } else if (error.response.status >= 500) {
-          setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        const serverMessage = axiosError.response?.data?.error?.message
+        if (serverMessage) {
+          setFieldError(serverMessage)
+          return
+        }
+        if (!axiosError.response) {
+          setFieldError('네트워크 연결을 확인해 주세요.')
+        } else if ((axiosError.response?.status ?? 0) >= 500) {
+          setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
         } else {
-          setFieldError('공연 생성에 실패했습니다. 다시 시도해 주세요.');
+          setFieldError('공연 생성에 실패했습니다. 다시 시도해 주세요.')
         }
       },
     });
@@ -197,7 +200,7 @@ export const PerformanceCreatePage: React.FC = () => {
           </div>
 
           {/* Datetime + Status — one row */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="space-y-1.5 flex-1">
               <Label className="text-[#333333]">일시</Label>
               <Popover>
@@ -220,7 +223,7 @@ export const PerformanceCreatePage: React.FC = () => {
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 max-w-[95vw]" align="start" collisionPadding={8}>
                   <Calendar
                     mode="single"
                     selected={selectedDate}

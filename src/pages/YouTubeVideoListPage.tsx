@@ -4,8 +4,8 @@ import { MainLayout } from '@/components/ui/MainLayout'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { Plus, LayoutGrid, List } from 'lucide-react'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { Plus } from 'lucide-react'
 import { YouTubeVideoCard } from '@/components/ui/YouTubeVideoCard'
 import { YouTubeVideoTable } from '@/components/ui/YouTubeVideoTable'
 import { YouTubeVideoPreview } from '@/components/ui/YouTubeVideoPreview'
@@ -92,14 +92,17 @@ export const YouTubeVideoListPage = () => {
             setShowAddDialog(false)
           },
           onError: (error) => {
-            const serverMessage = error.response?.data?.error?.message
+            const axiosError = error as {
+              response?: { data?: { error?: { message?: string } }; status?: number }
+            }
+            const serverMessage = axiosError.response?.data?.error?.message
             if (serverMessage) {
               setRegisterError(serverMessage)
               return
             }
-            if (!error.response) {
+            if (!axiosError.response) {
               setRegisterError('네트워크 연결을 확인해 주세요.')
-            } else if (error.response.status >= 500) {
+            } else if ((axiosError.response?.status ?? 0) >= 500) {
               setRegisterError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
             } else {
               setRegisterError('영상 등록에 실패했습니다. 다시 시도해 주세요.')

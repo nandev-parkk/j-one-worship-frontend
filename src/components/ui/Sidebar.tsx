@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { useAuthStore, useSidebarStore } from '@/stores'
-import { Music, Video, Users, User, LogOut, ChevronLeft } from 'lucide-react'
+import { Music, Video, LogOut, ChevronLeft } from 'lucide-react'
 import logo from '/public/logo.png'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */

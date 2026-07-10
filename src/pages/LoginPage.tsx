@@ -111,14 +111,17 @@ const LoginForm: React.FC = () => {
         navigate('/')
       },
       onError: (error) => {
-        const serverMessage = error.response?.data?.error?.message
+        const axiosError = error as {
+          response?: { data?: { error?: { message?: string } }; status?: number }
+        }
+        const serverMessage = axiosError.response?.data?.error?.message
         if (serverMessage) {
           setFieldError(serverMessage)
           return
         }
-        if (!error.response) {
+        if (!axiosError.response) {
           setFieldError('네트워크 연결을 확인해 주세요.')
-        } else if (error.response.status >= 500) {
+        } else if ((axiosError.response?.status ?? 0) >= 500) {
           setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
         } else {
           setFieldError('로그인에 실패했습니다. 다시 시도해 주세요.')

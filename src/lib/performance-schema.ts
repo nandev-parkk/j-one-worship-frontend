@@ -8,7 +8,7 @@ export const createPerformanceSchema = z.object({
     { message: '유효한 일시를 입력해주세요.' },
   ),
   location: z.string().min(1, '장소를 입력해주세요.'),
-  status: z.enum(['upcoming', 'ongoing', 'completed', 'cancelled']).default('upcoming'),
+  status: z.enum(['upcoming', 'ongoing', 'completed', 'cancelled']).optional(),
 });
 
 export type CreatePerformanceInput = z.infer<typeof createPerformanceSchema>;
