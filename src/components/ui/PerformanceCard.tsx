@@ -35,38 +35,36 @@ export const PerformanceCard: React.FC<{ performance: Performance; canDelete: bo
   return (
     <Link to={`/performances/${performance.id}`} className="flex flex-col group">
       <Card
-        className="flex flex-col flex-1 min-w-0 min-h-[18rem] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow)] hover:border-[var(--card-hover-color)]"
+        className="relative flex flex-col flex-1 min-w-0 min-h-[18rem] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow)] hover:border-[var(--card-hover-color)]"
         style={{
           '--card-hover-color': statusStyle.color,
           '--card-shadow': `0 10px 15px -3px ${statusStyle.color}26, 0 4px 6px -4px ${statusStyle.color}26`,
         } as React.CSSProperties}
       >
+        {canDelete && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onDelete(performance.id);
+            }}
+            className="absolute top-4 right-4 z-10 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-red-600 group-hover:opacity-100"
+            type="button"
+          >
+            <Trash2 size={14} />
+          </button>
+        )}
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
             <CardTitle className="line-clamp-1" style={{ color: '#222222' }}>
               {performance.name}
             </CardTitle>
-            <div className="flex items-center gap-2">
               <span
                 className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
                 style={{ background: statusStyle.bg, color: statusStyle.color }}
               >
                 {statusLabel}
               </span>
-              {canDelete && (
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onDelete(performance.id);
-                  }}
-                  className="rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-red-600 group-hover:opacity-100"
-                  type="button"
-                >
-                  <Trash2 size={14} />
-                </button>
-              )}
-            </div>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 flex-1">
