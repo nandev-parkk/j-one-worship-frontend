@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { MapPin, Calendar, Clock } from 'lucide-react'
+import { MapPin, Calendar, Clock, Trash2 } from 'lucide-react'
 import type { Performance } from '@/lib/performance-types'
 
 const statusLabels: Record<string, string> = {
@@ -17,7 +17,7 @@ const statusStyles: Record<string, { bg: string; color: string }> = {
   cancelled: { bg: '#FEF2F2', color: '#EF4444' },
 }
 
-export const PerformanceCard: React.FC<{ performance: Performance }> = ({ performance }) => {
+export const PerformanceCard: React.FC<{ performance: Performance; canDelete: boolean; onDelete: (id: number) => void }> = ({ performance, canDelete, onDelete }) => {
   const statusStyle = statusStyles[performance.status] ?? statusStyles.upcoming
   const statusLabel = statusLabels[performance.status] ?? performance.status
 
@@ -33,7 +33,7 @@ export const PerformanceCard: React.FC<{ performance: Performance }> = ({ perfor
   })
 
   return (
-    <Link to={`/performances/${performance.id}`} className="flex flex-col">
+    <Link to={`/performances/${performance.id}`} className="flex flex-col group">
       <Card
         className="flex flex-col flex-1 min-w-0 min-h-[18rem] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow)] hover:border-[var(--card-hover-color)]"
         style={{
@@ -46,12 +46,27 @@ export const PerformanceCard: React.FC<{ performance: Performance }> = ({ perfor
             <CardTitle className="line-clamp-1" style={{ color: '#222222' }}>
               {performance.name}
             </CardTitle>
-            <span
-              className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
-              style={{ background: statusStyle.bg, color: statusStyle.color }}
-            >
-              {statusLabel}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
+                style={{ background: statusStyle.bg, color: statusStyle.color }}
+              >
+                {statusLabel}
+              </span>
+              {canDelete && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onDelete(performance.id);
+                  }}
+                  className="rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-red-600 group-hover:opacity-100"
+                  type="button"
+                >
+                  <Trash2 size={14} />
+                </button>
+              )}
+            </div>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 flex-1">
