@@ -1,15 +1,15 @@
-import { Sidebar, SemicolonCross } from '@/components/Sidebar';
-import { MobileSidebar } from '@/components/MobileSidebar';
-import { Footer } from '@/components/Footer';
-import { useSidebarStore } from '@/stores';
-import { Menu } from 'lucide-react';
+import { Sidebar, SemicolonCross } from '@/components/ui/Sidebar'
+import { MobileSidebar } from '@/components/ui/MobileSidebar'
+import { Footer } from '@/components/ui/Footer'
+import { useSidebarStore } from '@/stores'
+import { Menu } from 'lucide-react'
 
 interface MainLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const toggle = useSidebarStore((state) => state.toggle);
+  const toggle = useSidebarStore((state) => state.toggle)
 
   return (
     <div className="flex h-dvh w-full overflow-hidden">
@@ -31,10 +31,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             className="flex items-center justify-center rounded-full"
             style={{ width: 40, height: 40 }}
           >
-            <Menu size={24} style={{ color: '#2977DC' }} />
+            <Menu size={24} style={{ color: '#222' }} />
           </button>
           <div className="flex items-center gap-1.5">
-            <h1 className="text-lg font-bold" style={{ color: '#2977DC' }}>J-One Worship</h1>
+            <h1 className="text-lg font-bold" style={{ color: '#222' }}>
+              J-One Worship
+            </h1>
             <SemicolonCross size={16} />
           </div>
           <div style={{ width: 40 }} />
@@ -44,5 +46,5 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <Footer />
       </main>
     </div>
-  );
-};
+  )
+}

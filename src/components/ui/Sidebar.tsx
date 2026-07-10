@@ -1,12 +1,6 @@
-import { Link, useLocation } from 'react-router';
-import { useAuthStore, useSidebarStore } from '@/stores';
-import {
-  Music,
-  Video,
-  Users,
-  User,
-  LogOut,
-} from 'lucide-react';
+import { Link, useLocation } from 'react-router'
+import { useAuthStore, useSidebarStore } from '@/stores'
+import { Music, Video, Users, User, LogOut } from 'lucide-react'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */
 
@@ -39,14 +33,14 @@ export const SemicolonCross: React.FC<{ size?: number }> = ({ size = 20 }) => (
     />
     <circle cx="40" cy="62" r="4" fill="currentColor" />
   </svg>
-);
+)
 
 /* ──────────────────────────── Menu Types ──────────────────────────── */
 
 interface MenuItem {
-  label: string;
-  path: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  label: string
+  path: string
+  icon: React.ComponentType<{ className?: string; size?: number }>
 }
 
 export const menuItems: MenuItem[] = [
@@ -54,7 +48,7 @@ export const menuItems: MenuItem[] = [
   { label: 'Youtube Videos', path: '/youtube-videos', icon: Video },
   { label: 'Members', path: '/members', icon: Users },
   { label: 'Account', path: '/account', icon: User },
-];
+]
 
 /* ──────────────────────────── Sidebar Item ──────────────────────────── */
 
@@ -62,8 +56,8 @@ export const SidebarItem: React.FC<{ item: MenuItem; isActive: boolean }> = ({
   item,
   isActive,
 }) => {
-  const { icon: Icon, label, path } = item;
-  const close = useSidebarStore((state) => state.close);
+  const { icon: Icon, label, path } = item
+  const close = useSidebarStore((state) => state.close)
 
   return (
     <Link
@@ -79,19 +73,19 @@ export const SidebarItem: React.FC<{ item: MenuItem; isActive: boolean }> = ({
       <Icon size={16} style={{ color: isActive ? '#2977DC' : '#A9A9A9' }} />
       <span>{label}</span>
     </Link>
-  );
-};
+  )
+}
 
 /* ──────────────────────────── Sidebar ──────────────────────────── */
 
 export const Sidebar: React.FC = () => {
-  const location = useLocation();
-  const logout = useAuthStore((state) => state.logout);
+  const location = useLocation()
+  const logout = useAuthStore((state) => state.logout)
 
   const handleLogout = () => {
-    logout();
-    window.location.href = '/login';
-  };
+    logout()
+    window.location.href = '/login'
+  }
 
   return (
     <aside
@@ -105,10 +99,7 @@ export const Sidebar: React.FC = () => {
     >
       {/* Brand */}
       <div className="flex flex-col items-center gap-1.5 px-6 pt-8 pb-8">
-        <h1
-          className="text-xl font-bold tracking-tight"
-          style={{ color: '#2977DC' }}
-        >
+        <h1 className="text-xl font-bold tracking-tight" style={{ color: '#222' }}>
           J-One Worship
         </h1>
         <SemicolonCross size={20} />
@@ -120,7 +111,9 @@ export const Sidebar: React.FC = () => {
           <SidebarItem
             key={item.path}
             item={item}
-            isActive={location.pathname === item.path}
+            isActive={
+              location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+            }
           />
         ))}
       </nav>
@@ -136,5 +129,5 @@ export const Sidebar: React.FC = () => {
         </button>
       </div>
     </aside>
-  );
-};
+  )
+}
