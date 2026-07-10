@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 import { MapPin, Calendar, Clock, Trash2 } from 'lucide-react'
 import type { Performance } from '@/lib/performance-types'
 
@@ -15,6 +16,20 @@ const statusLabels: Record<string, string> = {
   ongoing: '진행중',
   completed: '완료',
   cancelled: '취소',
+}
+
+const statusClasses: Record<string, string> = {
+  upcoming: 'text-[#2977DC]',
+  ongoing: 'text-[#22C55E]',
+  completed: 'text-[#8F8F8F]',
+  cancelled: 'text-[#EF4444]',
+}
+
+const statusDotClasses: Record<string, string> = {
+  upcoming: 'bg-[#2977DC]',
+  ongoing: 'bg-[#22C55E]',
+  completed: 'bg-[#8F8F8F]',
+  cancelled: 'bg-[#EF4444]',
 }
 
 export const PerformanceCard: React.FC<{
@@ -40,13 +55,12 @@ export const PerformanceCard: React.FC<{
   return (
     <Link to={`/performances/${performance.id}`} className="flex flex-col group">
       <Card
-        className="relative flex flex-col flex-1 min-w-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow)] hover:border-[var(--card-hover-color)]"
-        style={
-          {
-            '--card-hover-color': statusColor,
-            '--card-shadow': `0 10px 15px -3px ${statusColor}26, 0 4px 6px -4px ${statusColor}26`,
-          } as React.CSSProperties
-        }
+        className={cn(
+          "relative flex flex-col flex-1 min-w-0 transition-all duration-200 hover:-translate-y-0.5",
+          `hover:shadow-[var(--card-shadow)] hover:border-[var(--card-hover-color)]`,
+          `[--card-hover-color:${statusColor}]`,
+          `[--card-shadow:0_10px_15px_-3px_${statusColor}26,_0_4px_6px_-4px_${statusColor}26]`,
+        )}
       >
         {canDelete && (
           <button
@@ -63,13 +77,12 @@ export const PerformanceCard: React.FC<{
         )}
         <CardHeader>
           <span
-            className="shrink-0 flex items-center gap-1.5 text-xs"
-            style={{ color: statusColor }}
+            className={`shrink-0 flex items-center gap-1.5 text-xs ${statusClasses[performance.status] ?? statusClasses.upcoming}`}
           >
-            <span className="size-[6px] rounded-full" style={{ background: statusColor }} />
+            <span className={`size-[6px] rounded-full ${statusDotClasses[performance.status] ?? statusDotClasses.upcoming}`} />
             {statusLabel}
           </span>
-          <CardTitle className="line-clamp-1" style={{ color: '#222222' }}>
+          <CardTitle className="line-clamp-1 text-[#222222]">
             {performance.name}
           </CardTitle>
         </CardHeader>
@@ -77,23 +90,20 @@ export const PerformanceCard: React.FC<{
           {/*{performance.description && (*/}
           {/*  */}
           {/*)}*/}
-          <p
-            className="text-sm overflow-y-auto min-h-[2rem] max-h-[2.5rem]"
-            style={{ color: '#5A5A5A' }}
-          >
+          <p className="text-sm overflow-y-auto min-h-[2rem] max-h-[2.5rem] text-[#5A5A5A]">
             {performance.description}
           </p>
-          <div className="flex flex-col gap-2 text-sm" style={{ color: '#5A5A5A' }}>
+          <div className="flex flex-col gap-2 text-sm text-[#5A5A5A]">
             <div className="flex items-center gap-2">
-              <Calendar size={14} style={{ color: '#A9A9A9' }} />
+              <Calendar size={14} className="text-[#A9A9A9]" />
               <span>{dateStr}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock size={14} style={{ color: '#A9A9A9' }} />
+              <Clock size={14} className="text-[#A9A9A9]" />
               <span>{timeStr}</span>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin size={14} style={{ color: '#A9A9A9' }} />
+              <MapPin size={14} className="text-[#A9A9A9]" />
               <span>{performance.location}</span>
             </div>
           </div>

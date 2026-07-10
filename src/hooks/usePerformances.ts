@@ -19,6 +19,7 @@ import type {
   ListSetlistParams,
   SetlistOrderUpdate,
 } from '@/lib/performance-types';
+import { youtubeVideoKeys } from '@/hooks/useYouTubeVideos';
 
 // ─── Query Keys ────────────────────────────────────────────────
 
@@ -163,6 +164,9 @@ export function useAddPerformanceYouTubeVideo() {
       queryClient.invalidateQueries({
         queryKey: performanceKeys.detail(performanceId),
       });
+      queryClient.invalidateQueries({
+        queryKey: youtubeVideoKeys.lists,
+      });
     },
   });
 }
@@ -185,6 +189,9 @@ export function useRemovePerformanceYouTubeVideo() {
     onSuccess: (_, { performanceId }) => {
       queryClient.invalidateQueries({
         queryKey: performanceKeys.detail(performanceId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: youtubeVideoKeys.lists,
       });
     },
   });

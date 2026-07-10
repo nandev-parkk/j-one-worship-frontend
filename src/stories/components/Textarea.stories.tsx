@@ -56,11 +56,11 @@ export const DifferentRows: Story = {
     <div className="flex w-96 flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Label htmlFor="short">Short</Label>
-        <Textarea id="short" placeholder="Short textarea" style={{ minHeight: '6rem' }} />
+        <Textarea id="short" placeholder="Short textarea" className="min-h-24" />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="tall">Tall</Label>
-        <Textarea id="tall" placeholder="Tall textarea" style={{ minHeight: '12rem' }} />
+        <Textarea id="tall" placeholder="Tall textarea" className="min-h-48" />
       </div>
     </div>
   ),

@@ -27,8 +27,7 @@ export const PerformanceFilters: React.FC<PerformanceFiltersProps> = ({
       <div className="relative flex-1">
         <Search
           size={16}
-          className="absolute left-3 top-1/2 -translate-y-1/2"
-          style={{ color: '#A9A9A9' }}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A9A9A9]"
         />
         <Input
           placeholder="공연명 검색..."

@@ -109,9 +109,9 @@ export const PerformanceCreatePage: React.FC = () => {
             onClick={() => navigate('/performances')}
             className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
           >
-            <ArrowLeft size={18} style={{ color: '#333333' }} />
+            <ArrowLeft size={18} className="text-[#333333]" />
           </button>
-          <h2 className="text-xl font-bold" style={{ color: '#222222' }}>
+          <h2 className="text-xl font-bold text-[#222222]">
             공연 생성
           </h2>
         </div>
@@ -124,11 +124,7 @@ export const PerformanceCreatePage: React.FC = () => {
         >
           {/* Server error alert */}
           <div
-            className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible' : 'hidden'}`}
-            style={{
-              backgroundColor: fieldError ? '#FDE8E8' : undefined,
-              color: fieldError ? '#D92020' : undefined,
-            }}
+            className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible bg-[#FDE8E8] text-[#D92020]' : 'hidden'}`}
             role="alert"
             aria-live="polite"
           >
@@ -137,7 +133,7 @@ export const PerformanceCreatePage: React.FC = () => {
 
           {/* Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="name" style={{ color: '#333333' }}>
+            <Label htmlFor="name" className="text-[#333333]">
               공연명
             </Label>
             <Input
@@ -150,7 +146,7 @@ export const PerformanceCreatePage: React.FC = () => {
               {...register('name')}
             />
             {errors.name && (
-              <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+              <p className="text-xs text-[#D92020]" role="alert">
                 {errors.name.message}
               </p>
             )}
@@ -158,7 +154,7 @@ export const PerformanceCreatePage: React.FC = () => {
 
           {/* Description */}
           <div className="space-y-1.5">
-            <Label htmlFor="description" style={{ color: '#333333' }}>
+            <Label htmlFor="description" className="text-[#333333]">
               설명
             </Label>
             <Textarea
@@ -170,18 +166,18 @@ export const PerformanceCreatePage: React.FC = () => {
               maxLength={100}
               {...register('description')}
             />
-            <div className="flex justify-end text-xs" style={{ color: '#A9A9A9' }}>
+            <div className="flex justify-end text-xs text-[#A9A9A9]">
               {descriptionValue.length}/100
             </div>
             {errors.description && (
-              <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+              <p className="text-xs text-[#D92020]" role="alert">
                 {errors.description.message}
               </p>
             )}
           </div>
           {/* Location */}
           <div className="space-y-1.5">
-            <Label htmlFor="location" style={{ color: '#333333' }}>
+            <Label htmlFor="location" className="text-[#333333]">
               장소
             </Label>
             <Input
@@ -194,7 +190,7 @@ export const PerformanceCreatePage: React.FC = () => {
               {...register('location')}
             />
             {errors.location && (
-              <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+              <p className="text-xs text-[#D92020]" role="alert">
                 {errors.location.message}
               </p>
             )}
@@ -203,7 +199,7 @@ export const PerformanceCreatePage: React.FC = () => {
           {/* Datetime + Status — one row */}
           <div className="flex gap-4">
             <div className="space-y-1.5 flex-1">
-              <Label style={{ color: '#333333' }}>일시</Label>
+              <Label className="text-[#333333]">일시</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -211,12 +207,9 @@ export const PerformanceCreatePage: React.FC = () => {
                     variant="outline"
                     className={`w-full justify-start text-left font-normal ${
                       !selectedDate ? 'text-gray-400' : ''
-                    }`}
-                    style={{
-                      borderColor: errors.datetime ? '#D92020' : undefined,
-                    }}
+                    } ${errors.datetime ? 'border-[#D92020]' : ''}`}
                   >
-                    <CalendarIcon size={16} className="mr-2" style={{ color: '#A9A9A9' }} />
+                    <CalendarIcon size={16} className="mr-2 text-[#A9A9A9]" />
                     {selectedDate ? (
                       <>
                         {format(selectedDate, 'yyyy-MM-dd')}{' '}
@@ -242,14 +235,14 @@ export const PerformanceCreatePage: React.FC = () => {
                 </PopoverContent>
               </Popover>
               {errors.datetime && (
-                <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                <p className="text-xs text-[#D92020]" role="alert">
                   {errors.datetime.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-1.5 flex-1">
-              <Label style={{ color: '#333333' }}>상태</Label>
+              <Label className="text-[#333333]">상태</Label>
               <Controller
                 control={control}
                 name="status"
@@ -273,7 +266,7 @@ export const PerformanceCreatePage: React.FC = () => {
                 )}
               />
               {errors.status && (
-                <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                <p className="text-xs text-[#D92020]" role="alert">
                   {errors.status.message}
                 </p>
               )}
@@ -284,16 +277,12 @@ export const PerformanceCreatePage: React.FC = () => {
           <Button
             type="submit"
             disabled={isPending}
-            className="mt-2 w-full h-10 text-sm font-medium rounded-lg"
-            style={{
-              background: 'linear-gradient(135deg, #2977DC, #6A9DE0)',
-            }}
+            className="mt-2 w-full h-10 text-sm font-medium rounded-lg bg-gradient-to-br from-[#2977DC] to-[#6A9DE0]"
           >
             {isPending ? (
               <span className="flex items-center gap-2">
                 <span
-                  className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-transparent"
-                  style={{ borderTopColor: 'currentColor' }}
+                  className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-transparent border-t-current"
                   aria-hidden="true"
                 />
                 생성 중…

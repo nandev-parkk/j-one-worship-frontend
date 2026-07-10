@@ -27,8 +27,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
+      className={['storybook-button', `storybook-button--${size}`, mode, backgroundColor ? `bg-[${backgroundColor}]` : ''].filter(Boolean).join(' ')}
       {...props}
     >
       {label}

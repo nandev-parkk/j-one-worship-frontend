@@ -187,12 +187,7 @@ const GradientHeading: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
   <h2
-    className="text-2xl font-bold"
-    style={{
-      background: 'linear-gradient(to right, #2977DC, #6A9DE0)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-    }}
+    className="text-2xl font-bold bg-gradient-to-r from-[#2977DC] to-[#6A9DE0] bg-clip-text text-transparent"
   >
     {children}
   </h2>
@@ -204,7 +199,7 @@ const GradientHeading: React.FC<{ children: React.ReactNode }> = ({
 const SectionHeading: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <h3 className="mb-4 text-lg font-semibold" style={{ color: '#2977DC' }}>
+  <h3 className="mb-4 text-lg font-semibold text-[#2977DC]">
     {children}
   </h3>
 );
@@ -339,8 +334,7 @@ const GlowBox: React.FC<{ glow: GlowDef }> = ({ glow }) => (
 export const ColorPalette: React.FC = () => {
   return (
     <div
-      className="min-h-screen"
-      style={{ backgroundColor: '#F0F4F8' }}
+      className="min-h-screen bg-[#F0F4F8]"
     >
       <div className="mx-auto max-w-5xl space-y-8 p-8">
         {/* Header */}
