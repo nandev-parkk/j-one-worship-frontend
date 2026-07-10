@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createPerformanceSchema = z.object({
   name: z.string().min(1, '공연 이름을 입력해주세요.'),
-  description: z.string().optional(),
+  description: z.string().max(100, '설명은 100자 이내로 입력해주세요.').optional(),
   datetime: z.union([z.string(), z.date()]).refine(
     (val) => new Date(val).getTime() > 0,
     { message: '유효한 일시를 입력해주세요.' },
