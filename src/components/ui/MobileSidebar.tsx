@@ -3,7 +3,7 @@ import { Dialog, DialogClose } from '@/components/ui/dialog'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X, LogOut } from 'lucide-react'
 import { useSidebarStore, useAuthStore } from '@/stores'
-import { menuItems, SidebarItem, SemicolonCross } from '@/components/ui/Sidebar'
+import { menuItems, SidebarItem } from '@/components/ui/Sidebar'
 import { useLocation } from 'react-router'
 import logo from '/public/logo.png'
 
@@ -26,7 +26,7 @@ export const MobileSidebar: React.FC = () => {
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+        <DialogPrimitive.Overlay className="z-20 fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
         <DialogPrimitive.Content className="fixed inset-y-0 left-0 z-50 w-64 rounded-none border-none p-0 h-full outline-none data-[state=open]:animate-in data-[state=closed]:animate-out bg-white">
           {/* 닫기 버튼 */}
           <div className="absolute top-4 right-4">

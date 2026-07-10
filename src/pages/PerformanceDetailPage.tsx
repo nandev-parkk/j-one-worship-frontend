@@ -153,7 +153,7 @@ export const PerformanceDetailPage: React.FC = () => {
           }
           if (!axiosError.response) {
             setFieldError('네트워크 연결을 확인해 주세요.')
-          } else if (axiosError.response.status >= 500) {
+          } else if ((axiosError.response?.status ?? 0) >= 500) {
             setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
           } else {
             setFieldError('공연 수정에 실패했습니다. 다시 시도해 주세요.')
@@ -177,9 +177,7 @@ export const PerformanceDetailPage: React.FC = () => {
     return (
       <MainLayout>
         <div className="flex flex-col items-center gap-4 py-24">
-          <div className="text-sm text-[#5A5A5A]">
-            공연 정보를 불러오지 못했습니다.
-          </div>
+          <div className="text-sm text-[#5A5A5A]">공연 정보를 불러오지 못했습니다.</div>
           <button
             type="button"
             onClick={() => navigate('/performances')}
@@ -218,9 +216,7 @@ export const PerformanceDetailPage: React.FC = () => {
           >
             <ArrowLeft size={18} className="text-[#333333]" />
           </button>
-          <h2 className="text-xl font-bold text-[#222222]">
-            공연 상세
-          </h2>
+          <h2 className="text-xl font-bold text-[#222222]">공연 상세</h2>
         </div>
 
         {editing ? (
@@ -316,7 +312,7 @@ export const PerformanceDetailPage: React.FC = () => {
             </div>
 
             {/* Datetime + Status */}
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <div className="space-y-1.5 flex-1">
                 <Label className="text-[#333333]">일시</Label>
                 <Popover>
@@ -338,7 +334,7 @@ export const PerformanceDetailPage: React.FC = () => {
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 max-w-[95vw]" align="start" collisionPadding={8}>
                     <CalendarComponent
                       mode="single"
                       selected={selectedDate}
@@ -409,9 +405,7 @@ export const PerformanceDetailPage: React.FC = () => {
           <div className="flex flex-col gap-5 w-full">
             {/* Title + Status + Edit Button */}
             <div className="flex items-start justify-between gap-3">
-              <h1 className="text-2xl font-bold text-[#222222]">
-                {data.name}
-              </h1>
+              <h1 className="text-2xl font-bold text-[#222222]">{data.name}</h1>
               <div className="flex items-center gap-2">
                 <span
                   className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle.className}`}
@@ -507,9 +501,7 @@ export const PerformanceDetailPage: React.FC = () => {
                     //   <ChevronUp size={14} style={{ color: '#A9A9A9' }} />
                     // </Button>
                   )}
-                  <h3 className="text-sm font-semibold text-[#5A5A5A]">
-                    등록한 영상
-                  </h3>
+                  <h3 className="text-sm font-semibold text-[#5A5A5A]">공연에 등록한 영상 목록</h3>
                   <PerformanceRegisteredVideos performanceId={data.id} />
                 </div>
               </div>

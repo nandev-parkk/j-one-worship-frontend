@@ -6,7 +6,7 @@ import type { LoginSchema } from '@/lib/auth-schema';
 
 // Login mutation
 export function useLogin() {
-  return useMutation<ApiResponse<LoginResponse>, Error, LoginSchema>({
+  return useMutation<ApiResponse<LoginResponse>, unknown, LoginSchema>({
     mutationFn: async (credentials) => {
       const { data } = await api.post<ApiResponse<LoginResponse>>('/auth/login', credentials);
       return data;
@@ -23,7 +23,7 @@ export function useLogin() {
 
 // Logout mutation
 export function useLogout() {
-  return useMutation<void, Error, void>({
+  return useMutation<void, unknown, void>({
     mutationFn: async () => {
       await api.post('/auth/logout');
     },

@@ -56,7 +56,10 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
             setRegisterError(null)
           },
           onError: (error) => {
-            const serverMessage = error.response?.data?.error?.message
+            const axiosError = error as {
+              response?: { data?: { error?: { message?: string } }; status?: number }
+            }
+            const serverMessage = axiosError.response?.data?.error?.message
             setRegisterError(serverMessage ?? '영상 등록에 실패했습니다.')
           },
         },
@@ -65,12 +68,7 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
     [registerMutation, queryClient],
   )
 
-  if (isLoading)
-    return (
-      <div className="text-sm text-[#A9A9A9]">
-        로딩 중...
-      </div>
-    )
+  if (isLoading) return <div className="text-sm text-[#A9A9A9]">로딩 중...</div>
 
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg">
@@ -98,9 +96,7 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
 
       <div className="max-h-[300px] md:max-h-[400px] overflow-y-auto py-2">
         {filtered.length === 0 ? (
-          <div className="py-8 text-center text-sm text-[#A9A9A9]">
-            영상이 없습니다.
-          </div>
+          <div className="py-8 text-center text-sm text-[#A9A9A9]">영상이 없습니다.</div>
         ) : (
           <div className="flex flex-col">
             {filtered.map((video) => (

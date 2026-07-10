@@ -6,7 +6,6 @@ import {
 import api from '@/lib/api';
 import type {
   ApiResponse,
-  ApiErrorResponse,
 } from '@/lib/auth-types';
 import type {
   Performance,
@@ -38,7 +37,6 @@ const performanceKeys = {
 
 // ─── GET /performances ─────────────────────────────────────────
 
-const DEFAULT_LIMIT = 12;
 
 interface ListPerformancesResponse {
   data: Performance[];
@@ -46,7 +44,7 @@ interface ListPerformancesResponse {
 }
 
 export function useListPerformances(params: ListPerformancesParams = {}) {
-  return useQuery<ListPerformancesResponse, ApiErrorResponse>({
+  return useQuery<ListPerformancesResponse, unknown>({
     queryKey: performanceKeys.list(params),
     queryFn: async () => {
       const { data } = await api.get<ApiResponse<Performance[]> & { meta: PaginationMeta }>(
@@ -55,7 +53,7 @@ export function useListPerformances(params: ListPerformancesParams = {}) {
       )
       return { data: data.data, meta: data.meta as PaginationMeta }
     },
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
     staleTime: 1000 * 60,
   })
 }
@@ -63,7 +61,7 @@ export function useListPerformances(params: ListPerformancesParams = {}) {
 // ─── GET /performances/:id ─────────────────────────────────────
 
 export function useGetPerformance(id: number) {
-  return useQuery<PerformanceDetail, ApiErrorResponse>({
+  return useQuery<PerformanceDetail, unknown>({
     queryKey: performanceKeys.detail(id),
     queryFn: async () => {
       const { data } = await api.get<
@@ -82,7 +80,7 @@ export function useCreatePerformance() {
 
   return useMutation<
     ApiResponse<Performance>,
-    ApiErrorResponse,
+    unknown,
     CreatePerformanceInput
   >({
     mutationFn: async (input) => {
@@ -103,10 +101,9 @@ export function useCreatePerformance() {
 
 export function useUpdatePerformance() {
   const queryClient = useQueryClient();
-
   return useMutation<
     ApiResponse<Performance>,
-    ApiErrorResponse,
+    unknown,
     { id: number; input: UpdatePerformanceInput }
   >({
     mutationFn: async ({ id, input }) => {
@@ -131,7 +128,7 @@ export function useUpdatePerformance() {
 export function useDeletePerformance() {
   const queryClient = useQueryClient();
 
-  return useMutation<void, ApiErrorResponse, number>({
+  return useMutation<void, unknown, number>({
     mutationFn: async (id) => {
       await api.delete(`/performances/${id}`);
     },
@@ -150,7 +147,7 @@ export function useAddPerformanceYouTubeVideo() {
 
   return useMutation<
     ApiResponse<null>,
-    ApiErrorResponse,
+    unknown,
     { performanceId: number; videoId: number }
   >({
     mutationFn: async ({ performanceId, videoId }) => {
@@ -178,7 +175,7 @@ export function useRemovePerformanceYouTubeVideo() {
 
   return useMutation<
     void,
-    ApiErrorResponse,
+    unknown,
     { performanceId: number; videoId: number }
   >({
     mutationFn: async ({ performanceId, videoId }) => {
@@ -204,7 +201,7 @@ export function useAddSetlist() {
 
   return useMutation<
     ApiResponse<SetlistVideoItem>,
-    ApiErrorResponse,
+    unknown,
     { performanceId: number; videoId: number }
   >({
     mutationFn: async ({ performanceId, videoId }) => {
@@ -228,7 +225,7 @@ export function useRemoveSetlist() {
 
   return useMutation<
     void,
-    ApiErrorResponse,
+    unknown,
     { performanceId: number; setlistId: number }
   >({
     mutationFn: async ({ performanceId, setlistId }) => {
@@ -251,7 +248,7 @@ export function useUpdateSetlistOrder() {
 
   return useMutation<
     ApiResponse<null>,
-    ApiErrorResponse,
+    unknown,
     { performanceId: number; order: SetlistOrderUpdate[] }
   >({
     mutationFn: async ({ performanceId, order }) => {
@@ -281,7 +278,7 @@ export function useListSetlist(
   performanceId: number,
   params: ListSetlistParams = {},
 ) {
-  return useQuery<ListSetlistResponse, ApiErrorResponse>({
+  return useQuery<ListSetlistResponse, unknown>({
     queryKey: performanceKeys.setlist(performanceId, params),
     queryFn: async () => {
       const { data } = await api.get<

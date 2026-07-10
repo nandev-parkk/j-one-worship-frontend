@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import api from '@/lib/api';
-import type { ApiResponse, ApiErrorResponse } from '@/lib/auth-types';
+import type { ApiResponse } from '@/lib/auth-types';
 import type { PaginationMeta } from '@/lib/performance-types';
 import type {
   YouTubeVideo,
@@ -34,7 +34,7 @@ interface ListYouTubeVideosResponse {
 }
 
 export function useListYouTubeVideos(params: ListYouTubeVideosParams = {}) {
-  return useQuery<ListYouTubeVideosResponse, ApiErrorResponse>({
+  return useQuery<ListYouTubeVideosResponse, unknown>({
     queryKey: youtubeVideoKeys.list(params),
     queryFn: async () => {
       const { data } = await api.get<ApiResponse<YouTubeVideo[]> & { meta: PaginationMeta }>(
@@ -53,7 +53,7 @@ export function useListYouTubeVideos(params: ListYouTubeVideosParams = {}) {
 export function useRegisterYouTubeVideo() {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<YouTubeVideo>, ApiErrorResponse, RegisterYouTubeVideoInput>({
+  return useMutation<ApiResponse<YouTubeVideo>, unknown, RegisterYouTubeVideoInput>({
     mutationFn: async (input) => {
       const { data } = await api.post<ApiResponse<YouTubeVideo>>('/youtube-videos', input);
       return data;
@@ -69,7 +69,7 @@ export function useRegisterYouTubeVideo() {
 export function useDeleteYouTubeVideo() {
   const queryClient = useQueryClient();
 
-  return useMutation<void, ApiErrorResponse, number>({
+  return useMutation<void, unknown, number>({
     mutationFn: async (id: number) => {
       await api.delete(`/youtube-videos/${id}`);
     },
@@ -82,7 +82,7 @@ export function useDeleteYouTubeVideo() {
 // ─── POST /youtube-videos/preview ──────────────────────────────
 
 export function useYouTubeVideoPreviewMutation() {
-  return useMutation<YouTubeVideoPreviewType, ApiErrorResponse, string>({
+  return useMutation<YouTubeVideoPreviewType, unknown, string>({
     mutationFn: async (url: string) => {
       const { data } = await api.post<ApiResponse<YouTubeVideoPreviewType>>(
         '/youtube-videos/preview',
@@ -96,7 +96,7 @@ export function useYouTubeVideoPreviewMutation() {
 // ─── GET /performances (for filter) ────────────────────────────
 
 export function useListPerformancesForFilter() {
-  return useQuery<PerformanceFilterOption[], ApiErrorResponse>({
+  return useQuery<PerformanceFilterOption[], unknown>({
     queryKey: youtubeVideoKeys.performances,
     queryFn: async () => {
       const { data } = await api.get<ApiResponse<PerformanceFilterOption[]>>(
@@ -112,7 +112,7 @@ export function useListPerformancesForFilter() {
 // ─── GET /users (for filter) ───────────────────────────────────
 
 export function useListUsersForFilter() {
-  return useQuery<UserFilterOption[], ApiErrorResponse>({
+  return useQuery<UserFilterOption[], unknown>({
     queryKey: youtubeVideoKeys.users,
     queryFn: async () => {
       const { data } = await api.get<ApiResponse<UserFilterOption[]>>(

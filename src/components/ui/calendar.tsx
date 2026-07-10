@@ -130,13 +130,13 @@ function TimeInput({ value, onChange }: { value?: string; onChange?: (time: stri
   }
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1.5 flex-wrap">
       <div className="flex rounded-md border border-input overflow-hidden">
         <button
           type="button"
           onClick={() => handlePeriodChange('오전')}
           className={cn(
-            'px-2 py-1 text-xs font-medium transition-colors min-w-[44px]',
+            'px-2 py-1 text-xs font-medium transition-colors min-w-[40px] sm:min-w-[44px]',
             period === '오전' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50',
           )}
         >
@@ -146,7 +146,7 @@ function TimeInput({ value, onChange }: { value?: string; onChange?: (time: stri
           type="button"
           onClick={() => handlePeriodChange('오후')}
           className={cn(
-            'px-2 py-1 text-xs font-medium transition-colors border-l border-input min-w-[44px]',
+            'px-2 py-1 text-xs font-medium transition-colors border-l border-input min-w-[40px] sm:min-w-[44px]',
             period === '오후' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50',
           )}
         >
@@ -163,7 +163,7 @@ function TimeInput({ value, onChange }: { value?: string; onChange?: (time: stri
           onChange={(e) => formatField(e.target.value, setHour, 'hour', minuteRef)}
           onFocus={(e) => (e.target as HTMLInputElement).select()}
           onClick={(e) => (e.target as HTMLInputElement).select()}
-          className="w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="w-[26px] sm:w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
         <span className="text-sm px-0.5 select-none">:</span>
         <input
@@ -175,7 +175,7 @@ function TimeInput({ value, onChange }: { value?: string; onChange?: (time: stri
           onChange={(e) => formatField(e.target.value, setMinute, 'minute', secondRef)}
           onFocus={(e) => (e.target as HTMLInputElement).select()}
           onClick={(e) => (e.target as HTMLInputElement).select()}
-          className="w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="w-[26px] sm:w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
         <span className="text-sm px-0.5 select-none">:</span>
         <input
@@ -187,7 +187,7 @@ function TimeInput({ value, onChange }: { value?: string; onChange?: (time: stri
           onChange={(e) => formatField(e.target.value, setSecond, 'second')}
           onFocus={(e) => (e.target as HTMLInputElement).select()}
           onClick={(e) => (e.target as HTMLInputElement).select()}
-          className="w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="w-[26px] sm:w-[28px] h-9 text-center text-sm bg-transparent rounded-md border border-input shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
       </div>
     </div>
@@ -220,7 +220,7 @@ function Calendar({
             week: 'flex w-full mt-2',
             weekday: 'flex-1 text-black rounded-md text-[0.8rem] font-normal text-center',
             day: 'flex-1 text-center',
-            day_button: cn(buttonVariants({ variant: 'ghost' }), 'h-9 w-9 p-0 m-0.5 font-normal'),
+            day_button: cn(buttonVariants({ variant: 'ghost' }), 'h-9 w-9 sm:w-auto p-0 m-0.5 font-normal aspect-square'),
             selected: 'rounded-full border',
             today: 'text-blue-500 font-bold',
             outside: 'text-gray-400',
@@ -241,7 +241,7 @@ function Calendar({
                   {...props}
                   className={cn(
                     buttonVariants({ variant: 'ghost' }),
-                    'h-9 w-9 p-0 m-0.5 font-normal',
+                    'h-9 w-9 sm:w-auto p-0 m-0.5 font-normal aspect-square',
                     !has('outside') && !has('disabled') && 'hover:rounded-full hover:bg-gray-100',
                     has('selected') && 'rounded-full bg-gray-100',
                     has('today') && !has('selected') && 'font-bold text-blue-500',
@@ -283,7 +283,7 @@ function Calendar({
           week: 'flex w-full mt-2',
           weekday: 'flex-1 text-black rounded-md text-[0.8rem] font-normal text-center',
           day: 'flex-1 text-center',
-          day_button: cn(buttonVariants({ variant: 'ghost' }), 'h-9 w-9 p-0 m-0.5 font-normal'),
+          day_button: cn(buttonVariants({ variant: 'ghost' }), 'h-9 w-9 sm:w-auto p-0 m-0.5 font-normal aspect-square'),
           selected: 'rounded-full border',
           today: 'text-blue-500 font-bold',
           outside: 'text-gray-400',
@@ -304,7 +304,7 @@ function Calendar({
                 {...props}
                 className={cn(
                   buttonVariants({ variant: 'ghost' }),
-                  'h-9 w-9 p-0 m-0.5 font-normal',
+                  'h-9 w-9 sm:w-auto p-0 m-0.5 font-normal aspect-square',
                   !has('outside') && !has('disabled') && 'hover:rounded-full hover:bg-gray-100',
                   has('selected') && 'rounded-full bg-gray-100',
                   has('today') && !has('selected') && 'font-bold text-blue-500',

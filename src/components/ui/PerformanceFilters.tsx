@@ -39,7 +39,8 @@ export const PerformanceFilters: React.FC<PerformanceFiltersProps> = ({
       <Select
         value={status ?? ''}
         onValueChange={(value) => {
-          onChange(search, value || undefined);
+          const parsedStatus = value ? value as PerformanceStatus : undefined
+          onChange(search, parsedStatus)
         }}
       >
         <SelectTrigger className="w-full sm:w-[160px] data-[placeholder]:text-gray-400">

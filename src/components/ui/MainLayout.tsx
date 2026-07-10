@@ -1,4 +1,4 @@
-import { Sidebar, SemicolonCross } from '@/components/ui/Sidebar'
+import { Sidebar } from '@/components/ui/Sidebar'
 import { MobileSidebar } from '@/components/ui/MobileSidebar'
 import { Footer } from '@/components/ui/Footer'
 import { useSidebarStore } from '@/stores'
