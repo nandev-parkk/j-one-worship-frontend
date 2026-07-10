@@ -252,21 +252,21 @@ function Calendar({
               )
             },
             Chevron: ({ orientation, size, className }) => {
-              const sizeStyle = size ? { width: size, height: size } : undefined
+              const sizeClass = size ? `[width:${size}px] [height:${size}px]` : ''
               if (orientation === 'left')
-                return <ChevronLeft className={cn('h-4 w-4', className)} style={sizeStyle} />
+                return <ChevronLeft className={cn('h-4 w-4', className, sizeClass)} />
               if (orientation === 'right')
-                return <ChevronRight className={cn('h-4 w-4', className)} style={sizeStyle} />
+                return <ChevronRight className={cn('h-4 w-4', className, sizeClass)} />
               if (orientation === 'up')
-                return <ChevronLeft className={cn('h-4 w-4 -rotate-90', className)} style={sizeStyle} />
-              return <ChevronRight className={cn('h-4 w-4 -rotate-90', className)} style={sizeStyle} />
+                return <ChevronLeft className={cn('h-4 w-4 -rotate-90', className, sizeClass)} />
+              return <ChevronRight className={cn('h-4 w-4 -rotate-90', className, sizeClass)} />
             },
           }}
           {...props}
         />
         <div className="border-t border-t-input p-3">
           <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4" style={{ color: '#A9A9A9' }} />
+            <Clock className="h-4 w-4 text-[#A9A9A9]" />
             <TimeInput value={time} onChange={onTimeChange} />
           </div>
         </div>
@@ -315,14 +315,14 @@ function Calendar({
             )
           },
           Chevron: ({ orientation, size, className }) => {
-            const sizeStyle = size ? { width: size, height: size } : undefined
+            const sizeClass = size ? `[width:${size}px] [height:${size}px]` : ''
             if (orientation === 'left')
-              return <ChevronLeft className={cn('h-4 w-4', className)} style={sizeStyle} />
+              return <ChevronLeft className={cn('h-4 w-4', className, sizeClass)} />
             if (orientation === 'right')
-              return <ChevronRight className={cn('h-4 w-4', className)} style={sizeStyle} />
+              return <ChevronRight className={cn('h-4 w-4', className, sizeClass)} />
             if (orientation === 'up')
-              return <ChevronLeft className={cn('h-4 w-4 -rotate-90', className)} style={sizeStyle} />
-            return <ChevronRight className={cn('h-4 w-4 -rotate-90', className)} style={sizeStyle} />
+              return <ChevronLeft className={cn('h-4 w-4 -rotate-90', className, sizeClass)} />
+            return <ChevronRight className={cn('h-4 w-4 -rotate-90', className, sizeClass)} />
           },
         }}
         {...props}

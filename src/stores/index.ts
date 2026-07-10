@@ -34,10 +34,14 @@ interface SidebarState {
   open: boolean;
   toggle: () => void;
   close: () => void;
+  sidebarCollapsed: boolean;
+  toggleSidebarCollapse: () => void;
 }
 
 export const useSidebarStore = create<SidebarState>((set) => ({
   open: false,
   toggle: () => set((state) => ({ open: !state.open })),
   close: () => set({ open: false }),
+  sidebarCollapsed: false,
+  toggleSidebarCollapse: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 }));

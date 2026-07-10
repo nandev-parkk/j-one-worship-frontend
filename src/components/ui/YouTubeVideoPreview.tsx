@@ -77,7 +77,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
     <div className="flex flex-col gap-4">
       {/* URL Input */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium" style={{ color: '#222222' }}>
+        <label className="text-sm font-medium text-[#222222]">
           YouTube 영상 링크를 입력해주세요
         </label>
         <div className="flex gap-2">
@@ -103,8 +103,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
       {/* Error Display */}
       {(error || validationError || isPreviewError) && (
         <div
-          className="flex items-start gap-2 rounded-md px-3 py-2 text-sm"
-          style={{ background: '#FEF2F2', color: '#EF4444' }}
+          className="flex items-start gap-2 rounded-md px-3 py-2 text-sm bg-[#FEF2F2] text-[#EF4444]"
         >
           <AlertCircle size={16} className="shrink-0 mt-0.5" />
           <span>
@@ -116,8 +115,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
       {/* Preview Card */}
       {preview && (preview.thumbnailUrl || preview.title) && (
         <Card
-          className="flex flex-col transition-all duration-200"
-          style={{ borderColor: '#E5E5E5' }}
+          className="flex flex-col transition-all duration-200 border-[#E5E5E5]"
         >
           <CardContent className="flex flex-col sm:flex-row gap-4 pt-6">
             {/* Thumbnail */}
@@ -130,7 +128,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <Play size={24} style={{ color: '#A9A9A9' }} />
+                  <Play size={24} className="text-[#A9A9A9]" />
                 </div>
               )}
             </div>
@@ -138,24 +136,24 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
             {/* Video Info */}
             <div className="flex flex-col gap-2 flex-1 min-w-0">
               {displayTitle && (
-                <h4 className="font-medium line-clamp-2" style={{ color: '#222222' }}>
+                <h4 className="font-medium line-clamp-2 text-[#222222]">
                   {displayTitle}
                 </h4>
               )}
               {displayChannel && (
-                <div className="flex items-center gap-1.5 text-sm" style={{ color: '#5A5A5A' }}>
-                  <User size={14} style={{ color: '#A9A9A9' }} />
+                <div className="flex items-center gap-1.5 text-sm text-[#5A5A5A]">
+                  <User size={14} className="text-[#A9A9A9]" />
                   <span className="truncate">{displayChannel}</span>
                 </div>
               )}
               {displayDuration && (
-                <div className="flex items-center gap-1.5 text-sm" style={{ color: '#5A5A5A' }}>
-                  <Clock size={14} style={{ color: '#A9A9A9' }} />
+                <div className="flex items-center gap-1.5 text-sm text-[#5A5A5A]">
+                  <Clock size={14} className="text-[#A9A9A9]" />
                   <span>{displayDuration}</span>
                 </div>
               )}
               {!displayTitle && !displayChannel && (
-                <p className="text-sm" style={{ color: '#8F8F8F' }}>
+                <p className="text-sm text-[#8F8F8F]">
                   영상 정보를 미리보기할 수 없습니다. 링크가 올바른지 확인해주세요.
                 </p>
               )}
@@ -166,7 +164,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
 
       {/* Loading Indicator */}
       {isPreviewLoading && (
-        <div className="flex items-center gap-2 text-sm" style={{ color: '#5A5A5A' }}>
+        <div className="flex items-center gap-2 text-sm text-[#5A5A5A]">
           <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
           <span>영상 정보를 가져오는 중...</span>
         </div>
@@ -181,8 +179,7 @@ export const YouTubeVideoPreview: React.FC<YouTubeVideoPreviewProps> = ({
         <Button
           onClick={handleSave}
           disabled={!preview || loading}
-          style={{ background: '#2977DC', color: '#FFFFFF' }}
-          className="hover:opacity-90"
+          className="bg-[#2977DC] text-white hover:opacity-90"
         >
           저장
         </Button>

@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router';
-import { Button } from '@/components/ui/button';
-import { Footer } from '@/components/ui/Footer';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useLogin } from '@/hooks/useAuth';
-import { loginSchema, type LoginSchema } from '@/lib/auth-schema';
-import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from 'react-router'
+import { Button } from '@/components/ui/button'
+import { Footer } from '@/components/ui/Footer'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useLogin } from '@/hooks/useAuth'
+import { loginSchema, type LoginSchema } from '@/lib/auth-schema'
+import { Eye, EyeOff } from 'lucide-react'
+import logo from '/public/logo.png'
+import * as React from 'react'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */
 
@@ -46,43 +48,28 @@ const SemicolonCross: React.FC<{ size?: number }> = ({ size = 80 }) => (
       strokeLinecap="round"
     />
   </svg>
-);
+)
 
 /* ──────────────────────────── Brand Panel ──────────────────────────── */
 
 const BrandPanel: React.FC = () => (
   <div className="relative hidden lg:flex lg:w-[420px] shrink-0 flex-col justify-between overflow-hidden p-10">
     {/* Background gradient */}
-    <div
-      className="absolute inset-0"
-      style={{
-        background: 'linear-gradient(160deg, #0F2B54 0%, #2977DC 50%, #6A9DE0 100%)',
-      }}
-    />
+    <div className="absolute inset-0 bg-gradient-to-br from-[#0F2B54] via-[#2977DC] to-[#6A9DE0]" />
 
     {/* Decorative circles */}
-    <div
-      className="absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-10"
-      style={{ backgroundColor: '#FFFFFF' }}
-    />
-    <div
-      className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full opacity-5"
-      style={{ backgroundColor: '#FFFFFF' }}
-    />
+    <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-10 bg-white" />
+    <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full opacity-5 bg-white" />
 
     {/* Content — relative to stay above decorations */}
     <div className="relative z-10 flex flex-col items-center text-center text-white">
       <SemicolonCross size={64} />
-      <h1
-        className="mt-6 text-3xl font-bold tracking-tight"
-        style={{ color: '#FFFFFF' }}
-      >
-        J-One Worship
-      </h1>
-      <p
-        className="mt-2 text-sm leading-relaxed"
-        style={{ color: 'rgba(255,255,255,0.7)' }}
-      >
+      {/*<h1*/}
+      {/*  className="mt-6 text-3xl font-bold tracking-tight text-white"*/}
+      {/*>*/}
+      {/*  J-One Worship*/}
+      {/*</h1>*/}
+      <p className="mt-2 text-sm leading-relaxed text-white/70">
         함께 예배하는 모든 순간을
         <br />
         하나로 연결합니다
@@ -90,26 +77,21 @@ const BrandPanel: React.FC = () => (
     </div>
 
     <div className="relative z-10">
-      <p
-        className="text-xs leading-relaxed"
-        style={{ color: 'rgba(255,255,255,0.5)' }}
-      >
-        예배는 멈추고 다시 시작되는 것
-        <br />
-        세미콜론처럼, 끊김 없이 계속됩니다
+      <p className="text-xs leading-relaxed text-white/50">
+        우리의 소망이신 예수님만을 예배합니다.
       </p>
     </div>
   </div>
-);
+)
 
 /* ──────────────────────────── Login Form ──────────────────────────── */
 
 const LoginForm: React.FC = () => {
-  const navigate = useNavigate();
-  const { mutate: login, isPending } = useLogin();
+  const navigate = useNavigate()
+  const { mutate: login, isPending } = useLogin()
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [fieldError, setFieldError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false)
+  const [fieldError, setFieldError] = useState<string | null>(null)
 
   const {
     register,
@@ -121,48 +103,40 @@ const LoginForm: React.FC = () => {
       username: '',
       password: '',
     },
-  });
+  })
 
   const onSubmit = (data: LoginSchema) => {
     login(data, {
       onSuccess: () => {
-        navigate('/');
+        navigate('/')
       },
       onError: (error) => {
-        const serverMessage = error.response?.data?.error?.message;
+        const serverMessage = error.response?.data?.error?.message
         if (serverMessage) {
-          setFieldError(serverMessage);
-          return;
+          setFieldError(serverMessage)
+          return
         }
         if (!error.response) {
-          setFieldError('네트워크 연결을 확인해 주세요.');
+          setFieldError('네트워크 연결을 확인해 주세요.')
         } else if (error.response.status >= 500) {
-          setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+          setFieldError('서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
         } else {
-          setFieldError('로그인에 실패했습니다. 다시 시도해 주세요.');
+          setFieldError('로그인에 실패했습니다. 다시 시도해 주세요.')
         }
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-16 w-[480px] xl:w-[520px]">
-      {/* Mobile logo */}
-      <div className="mb-8 flex flex-col items-center lg:hidden">
-        <SemicolonCross size={48} />
-        <h1
-          className="mt-4 text-xl font-bold"
-          style={{ color: '#2977DC' }}
-        >
-          J-One Worship
-        </h1>
+      {/* Logo — shown on all screen sizes */}
+      <div className="mb-8 flex flex-col items-center">
+        <img src={logo} alt="logo" className="w-[80px]" />
       </div>
 
       {/* Heading */}
       <div className="w-full lg:max-w-md">
-        <h2 className="text-2xl font-semibold tracking-tight">
-          로그인
-        </h2>
+        <h2 className="text-2xl font-semibold tracking-tight">로그인</h2>
       </div>
 
       {/* Form */}
@@ -173,11 +147,7 @@ const LoginForm: React.FC = () => {
       >
         {/* Alert — always rendered to prevent layout shift */}
         <div
-          className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible' : 'hidden'}`}
-          style={{
-            backgroundColor: fieldError ? '#FDE8E8' : undefined,
-            color: fieldError ? '#D92020' : undefined,
-          }}
+          className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible bg-[#FDE8E8] text-[#D92020]' : 'hidden'}`}
           role="alert"
           aria-live="polite"
         >
@@ -186,10 +156,11 @@ const LoginForm: React.FC = () => {
 
         {/* Username */}
         <div className="space-y-1.5">
-          <Label htmlFor="username" style={{ color: '#333333' }}>
+          <Label htmlFor="username" className="text-[#333333]">
             아이디
           </Label>
-          <Input className="placeholder:text-gray-400"
+          <Input
+            className="placeholder:text-gray-400"
             id="username"
             type="text"
             placeholder="아이디를 입력해주세요."
@@ -198,11 +169,7 @@ const LoginForm: React.FC = () => {
             {...register('username')}
           />
           {errors.username && (
-            <p
-              className="text-xs"
-              style={{ color: '#D92020' }}
-              role="alert"
-            >
+            <p className="text-xs text-[#D92020]" role="alert">
               {errors.username.message}
             </p>
           )}
@@ -210,11 +177,12 @@ const LoginForm: React.FC = () => {
 
         {/* Password */}
         <div className="space-y-1.5">
-          <Label htmlFor="password" style={{ color: '#333333' }}>
+          <Label htmlFor="password" className="text-[#333333]">
             비밀번호
           </Label>
           <div className="relative">
-            <Input className="placeholder:text-gray-400 pr-10"
+            <Input
+              className="placeholder:text-gray-400 pr-10"
               id="password"
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
@@ -231,18 +199,14 @@ const LoginForm: React.FC = () => {
               aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
             >
               {showPassword ? (
-                <EyeOff size={18} style={{ color: '#A9A9A9' }} />
+                <EyeOff size={18} className="text-[#A9A9A9]" />
               ) : (
-                <Eye size={18} style={{ color: '#A9A9A9' }} />
+                <Eye size={18} className="text-[#A9A9A9]" />
               )}
             </button>
           </div>
           {errors.password && (
-            <p
-              className="text-xs"
-              style={{ color: '#D92020' }}
-              role="alert"
-            >
+            <p className="text-xs text-[#D92020]" role="alert">
               {errors.password.message}
             </p>
           )}
@@ -252,16 +216,12 @@ const LoginForm: React.FC = () => {
         <Button
           type="submit"
           disabled={isPending}
-          className="mt-2 w-full h-10 text-sm font-medium rounded-lg"
-          style={{
-            background: 'linear-gradient(135deg, #2977DC, #6A9DE0)',
-          }}
+          className="mt-2 w-full h-10 text-sm font-medium rounded-lg bg-gradient-to-br from-[#2977DC] to-[#6A9DE0]"
         >
           {isPending ? (
             <span className="flex items-center gap-2">
               <span
-                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-transparent"
-                style={{ borderTopColor: 'currentColor' }}
+                className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-transparent border-t-current"
                 aria-hidden="true"
               />
               로그인 중…
@@ -271,13 +231,11 @@ const LoginForm: React.FC = () => {
           )}
         </Button>
       </form>
-
     </div>
-  );
-};
+  )
+}
 
 /* ──────────────────────────── Page ──────────────────────────── */
-
 
 export const LoginPage: React.FC = () => (
   <div className="flex h-dvh w-full overflow-hidden bg-white">
@@ -290,7 +248,9 @@ export const LoginPage: React.FC = () => (
       <div className="flex flex-1 items-center justify-center">
         <LoginForm />
       </div>
-      <Footer />
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </div>
   </div>
 )

@@ -1,19 +1,17 @@
-import { Trash2, Clock, User } from 'lucide-react';
+import { X, Clock, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import type { YouTubeVideo } from '@/lib/youtube-types';
 import { formatDuration } from '@/lib/youtube-utils';
 
-interface YouTubeVideoCardProps {
+interface PerformanceVideoCardProps {
   video: YouTubeVideo;
-  canDelete: boolean;
-  onDelete: (id: number) => void;
+  onUnregister: (id: number) => void;
 }
 
-export const YouTubeVideoCard: React.FC<YouTubeVideoCardProps> = ({
+export const PerformanceVideoCard: React.FC<PerformanceVideoCardProps> = ({
   video,
-  canDelete,
-  onDelete,
+  onUnregister,
 }) => {
   const thumbnailSrc = video.thumbnailUrl;
 
@@ -38,26 +36,24 @@ export const YouTubeVideoCard: React.FC<YouTubeVideoCardProps> = ({
           <div className="absolute bottom-2 right-2 rounded bg-black/80 px-1.5 py-0.5 text-xs text-white">
             {formatDuration(video.duration)}
           </div>
-          {/* Delete button */}
-          {canDelete && (
-            <div className="absolute top-2 right-2">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onDelete(video.id);
-                }}
-                className="rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-red-600 group-hover:opacity-100"
-                type="button"
-              >
-                <Trash2 size={14} />
-              </button>
-            </div>
-          )}
+          {/* Unregister button */}
+          <div className="absolute top-2 right-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onUnregister(video.id);
+              }}
+              className="rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-gray-700 group-hover:opacity-100"
+              type="button"
+            >
+              <X size={14} />
+            </button>
+          </div>
         </div>
 
         {/* Content */}
-        <CardContent className="flex flex-col flex-1 gap-2 px-6 pb-4">
+        <CardContent className="flex flex-col flex-1 gap-2 px-4 pb-4 md:px-6">
           {/* Title */}
           <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-[#222222]">
             {video.title}

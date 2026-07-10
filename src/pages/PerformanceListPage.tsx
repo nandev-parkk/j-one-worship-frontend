@@ -72,7 +72,7 @@ export const PerformanceListPage = () => {
   return (
     <MainLayout>
       <div className="flex flex-col gap-6 w-full px-6 py-6">
-        <h2 className="text-xl font-bold" style={{ color: '#222222' }}>
+        <h2 className="text-xl font-bold text-[#222222]">
           공연 목록
         </h2>
 
@@ -80,10 +80,7 @@ export const PerformanceListPage = () => {
           <div className="flex justify-end">
             <Link to="/performances/create">
               <Button
-                className="h-9 text-sm font-medium rounded-lg"
-                style={{
-                  background: 'linear-gradient(135deg, #2977DC, #6A9DE0)',
-                }}
+                className="h-9 text-sm font-medium rounded-lg bg-gradient-to-br from-[#2977DC] to-[#6A9DE0]"
               >
                 공연 생성
               </Button>
@@ -102,11 +99,11 @@ export const PerformanceListPage = () => {
             <LoadingSpinner />
           </div>
         ) : isError ? (
-          <div className="flex flex-1 items-center justify-center" style={{ color: '#EF4444' }}>
+          <div className="flex flex-1 items-center justify-center text-[#EF4444]">
             데이터를 불러오지 못했습니다.
           </div>
         ) : items.length === 0 && !isFetching ? (
-          <div className="flex flex-1 items-center justify-center" style={{ color: '#A9A9A9' }}>
+          <div className="flex flex-1 items-center justify-center text-[#A9A9A9]">
             공연이 없습니다.
           </div>
         ) : items.length === 0 && isFetching ? (
@@ -138,7 +135,7 @@ export const PerformanceListPage = () => {
           <DialogHeader>
             <DialogTitle>공연 삭제</DialogTitle>
           </DialogHeader>
-          <p style={{ color: '#5A5A5A' }}>정말로 이 공연을 삭제하시겠습니까?</p>
+          <p className="text-[#5A5A5A]">정말로 이 공연을 삭제하시겠습니까?</p>
           <div className="flex justify-end gap-2 mt-4">
             <Button variant="outline" onClick={() => setDeleteConfirmId(null)}>
               취소

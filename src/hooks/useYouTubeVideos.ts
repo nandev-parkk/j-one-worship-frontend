@@ -17,7 +17,7 @@ import type {
 
 // ─── Query Keys ────────────────────────────────────────────────
 
-const youtubeVideoKeys = {
+export const youtubeVideoKeys = {
   all: ['youtubeVideos'] as const,
   lists: ['youtubeVideos', 'list'] as const,
   list: (params: ListYouTubeVideosParams) =>
@@ -122,4 +122,9 @@ export function useListUsersForFilter() {
     },
     staleTime: 1000 * 60 * 5,
   });
+}
+// ─── GET /youtube-videos (전체 조회, 페이지네이션 없음) ─────────
+
+export function useListAllYouTubeVideos() {
+  return useListYouTubeVideos({ limit: 0 });
 }

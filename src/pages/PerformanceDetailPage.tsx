@@ -1,9 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useForm, Controller, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import { ArrowLeft, Calendar, CalendarIcon, Clock, MapPin, Pencil, Video, X } from 'lucide-react'
+import {
+  ArrowLeft,
+  Calendar,
+  CalendarIcon,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  MapPin,
+  Pencil,
+  Video,
+  X,
+} from 'lucide-react'
+import {
+  useAddPerformanceYouTubeVideo,
+  useRemovePerformanceYouTubeVideo,
+} from '@/hooks/usePerformances'
+import { PerformanceAllVideoList } from '@/components/ui/PerformanceAllVideoList'
+import { PerformanceRegisteredVideos } from '@/components/ui/PerformanceRegisteredVideos'
 import { MainLayout } from '@/components/ui/MainLayout'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { useGetPerformance, useUpdatePerformance } from '@/hooks/usePerformances'
@@ -12,7 +29,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar as CalendarComponent } from '@/components/ui/calendar'
 import { updatePerformanceSchema, type UpdatePerformanceInput } from '@/lib/performance-schema'
@@ -24,11 +47,11 @@ const statusLabels: Record<string, string> = {
   cancelled: '취소',
 }
 
-const statusStyles: Record<PerformanceStatus, { bg: string; color: string }> = {
-  upcoming: { bg: '#EFF6FF', color: '#2977DC' },
-  ongoing: { bg: '#F0FDF4', color: '#22C55E' },
-  completed: { bg: '#F5F5F5', color: '#8F8F8F' },
-  cancelled: { bg: '#FEF2F2', color: '#EF4444' },
+const statusStyles: Record<PerformanceStatus, { className: string }> = {
+  upcoming: { className: 'bg-[#EFF6FF] text-[#2977DC]' },
+  ongoing: { className: 'bg-[#F0FDF4] text-[#22C55E]' },
+  completed: { className: 'bg-[#F5F5F5] text-[#8F8F8F]' },
+  cancelled: { className: 'bg-[#FEF2F2] text-[#EF4444]' },
 }
 
 const statusOptions: { value: string; label: string }[] = [
@@ -49,10 +72,28 @@ export const PerformanceDetailPage: React.FC = () => {
   const [fieldError, setFieldError] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string>('09:00:00')
+  const [showAllVideoList, setShowAllVideoList] = useState(true)
 
   const { mutate: updatePerformance, isPending } = useUpdatePerformance()
   const user = useAuthStore((state) => state.user)
   const isAdmin = user?.role === 'admin'
+
+  // Video registration/unregistration
+  const addVideoMutation = useAddPerformanceYouTubeVideo()
+  const removeVideoMutation = useRemovePerformanceYouTubeVideo()
+
+  const registeredVideoIds = data?.videos.map((v) => v.id) ?? []
+
+  const handleToggleVideo = useCallback(
+    (videoId: number) => {
+      if (registeredVideoIds.includes(videoId)) {
+        removeVideoMutation.mutate({ performanceId: parsedId, videoId })
+      } else {
+        addVideoMutation.mutate({ performanceId: parsedId, videoId })
+      }
+    },
+    [registeredVideoIds, parsedId, addVideoMutation, removeVideoMutation],
+  )
 
   useEffect(() => {
     if (!data) return
@@ -85,14 +126,15 @@ export const PerformanceDetailPage: React.FC = () => {
     }
   }, [selectedDate, selectedTime, setValue])
 
-  const descriptionValue = useWatch({ control, name: 'description' }) as string ?? ''
+  const descriptionValue = (useWatch({ control, name: 'description' }) as string) ?? ''
 
   const onSubmit = (formData: UpdatePerformanceInput) => {
     const payload: UpdatePerformanceInput = {
       ...formData,
-      datetime: !formData.datetime && selectedDate
-        ? format(selectedDate, 'yyyy-MM-dd') + 'T' + selectedTime
-        : formData.datetime,
+      datetime:
+        !formData.datetime && selectedDate
+          ? format(selectedDate, 'yyyy-MM-dd') + 'T' + selectedTime
+          : formData.datetime,
     }
     updatePerformance(
       { id: parsedId, input: payload },
@@ -101,7 +143,9 @@ export const PerformanceDetailPage: React.FC = () => {
           setEditing(false)
         },
         onError: (error) => {
-          const axiosError = error as { response?: { data?: { error?: { message?: string } }; status?: number } }
+          const axiosError = error as {
+            response?: { data?: { error?: { message?: string } }; status?: number }
+          }
           const serverMessage = axiosError.response?.data?.error?.message
           if (serverMessage) {
             setFieldError(serverMessage)
@@ -115,7 +159,7 @@ export const PerformanceDetailPage: React.FC = () => {
             setFieldError('공연 수정에 실패했습니다. 다시 시도해 주세요.')
           }
         },
-      }
+      },
     )
   }
 
@@ -133,14 +177,13 @@ export const PerformanceDetailPage: React.FC = () => {
     return (
       <MainLayout>
         <div className="flex flex-col items-center gap-4 py-24">
-          <div className="text-sm" style={{ color: '#5A5A5A' }}>
+          <div className="text-sm text-[#5A5A5A]">
             공연 정보를 불러오지 못했습니다.
           </div>
           <button
             type="button"
             onClick={() => navigate('/performances')}
-            className="text-sm font-medium"
-            style={{ color: '#2977DC' }}
+            className="text-sm font-medium text-[#2977DC]"
           >
             공연 목록으로 돌아가기
           </button>
@@ -165,7 +208,7 @@ export const PerformanceDetailPage: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className="flex flex-col gap-6 w-full px-6 py-6">
+      <div className="flex flex-col gap-6 w-full px-4 py-4 md:px-6 md:py-6">
         {/* Back Button + Title */}
         <div className="flex items-center gap-3">
           <button
@@ -173,38 +216,33 @@ export const PerformanceDetailPage: React.FC = () => {
             onClick={() => navigate('/performances')}
             className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
           >
-            <ArrowLeft size={18} style={{ color: '#333333' }} />
+            <ArrowLeft size={18} className="text-[#333333]" />
           </button>
-          <h2 className="text-xl font-bold" style={{ color: '#222222' }}>
+          <h2 className="text-xl font-bold text-[#222222]">
             공연 상세
           </h2>
         </div>
 
         {editing ? (
           /* 수정 모드: 폼 */
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="w-full max-w-2xl space-y-5"
-            noValidate
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-2xl space-y-5" noValidate>
             {/* 취소 버튼 */}
             <div className="flex items-center justify-end gap-2">
               <button
                 type="button"
-                onClick={() => { setEditing(false); setFieldError(null) }}
+                onClick={() => {
+                  setEditing(false)
+                  setFieldError(null)
+                }}
                 className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
               >
-                <X size={18} style={{ color: '#5A5A5A' }} />
+                <X size={18} className="text-[#5A5A5A]" />
               </button>
             </div>
 
             {/* Server error alert */}
             <div
-              className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible' : 'hidden'}`}
-              style={{
-                backgroundColor: fieldError ? '#FDE8E8' : undefined,
-                color: fieldError ? '#D92020' : undefined,
-              }}
+              className={`rounded-lg px-3 sm:px-4 py-3 text-sm ${fieldError ? 'visible bg-[#FDE8E8] text-[#D92020]' : 'hidden'}`}
               role="alert"
               aria-live="polite"
             >
@@ -213,7 +251,9 @@ export const PerformanceDetailPage: React.FC = () => {
 
             {/* Name */}
             <div className="space-y-1.5">
-              <Label htmlFor="name" style={{ color: '#333333' }}>공연명</Label>
+              <Label htmlFor="name" className="text-[#333333]">
+                공연명
+              </Label>
               <Input
                 id="name"
                 type="text"
@@ -224,7 +264,7 @@ export const PerformanceDetailPage: React.FC = () => {
                 {...register('name')}
               />
               {errors.name && (
-                <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                <p className="text-xs text-[#D92020]" role="alert">
                   {errors.name.message}
                 </p>
               )}
@@ -232,7 +272,9 @@ export const PerformanceDetailPage: React.FC = () => {
 
             {/* Description */}
             <div className="space-y-1.5">
-              <Label htmlFor="description" style={{ color: '#333333' }}>설명</Label>
+              <Label htmlFor="description" className="text-[#333333]">
+                설명
+              </Label>
               <Textarea
                 id="description"
                 placeholder="설명을 입력해주세요 (선택)"
@@ -242,11 +284,11 @@ export const PerformanceDetailPage: React.FC = () => {
                 maxLength={100}
                 {...register('description')}
               />
-              <div className="flex justify-end text-xs" style={{ color: '#A9A9A9' }}>
+              <div className="flex justify-end text-xs text-[#A9A9A9]">
                 {descriptionValue.length}/100
               </div>
               {errors.description && (
-                <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                <p className="text-xs text-[#D92020]" role="alert">
                   {errors.description.message}
                 </p>
               )}
@@ -254,7 +296,9 @@ export const PerformanceDetailPage: React.FC = () => {
 
             {/* Location */}
             <div className="space-y-1.5">
-              <Label htmlFor="location" style={{ color: '#333333' }}>장소</Label>
+              <Label htmlFor="location" className="text-[#333333]">
+                장소
+              </Label>
               <Input
                 id="location"
                 type="text"
@@ -265,7 +309,7 @@ export const PerformanceDetailPage: React.FC = () => {
                 {...register('location')}
               />
               {errors.location && (
-                <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                <p className="text-xs text-[#D92020]" role="alert">
                   {errors.location.message}
                 </p>
               )}
@@ -274,7 +318,7 @@ export const PerformanceDetailPage: React.FC = () => {
             {/* Datetime + Status */}
             <div className="flex gap-4">
               <div className="space-y-1.5 flex-1">
-                <Label style={{ color: '#333333' }}>일시</Label>
+                <Label className="text-[#333333]">일시</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -282,16 +326,12 @@ export const PerformanceDetailPage: React.FC = () => {
                       variant="outline"
                       className={`w-full justify-start text-left font-normal ${
                         !selectedDate ? 'text-gray-400' : ''
-                      }`}
-                      style={{
-                        borderColor: errors.datetime ? '#D92020' : undefined,
-                      }}
+                      } ${errors.datetime ? 'border-[#D92020]' : ''}`}
                     >
-                      <CalendarIcon size={16} className="mr-2" style={{ color: '#A9A9A9' }} />
+                      <CalendarIcon size={16} className="mr-2 text-[#A9A9A9]" />
                       {selectedDate ? (
                         <>
-                          {format(selectedDate, 'yyyy-MM-dd')}{' '}
-                          <span>{selectedTime}</span>
+                          {format(selectedDate, 'yyyy-MM-dd')} <span>{selectedTime}</span>
                         </>
                       ) : (
                         <span>날짜를 선택해주세요.</span>
@@ -311,23 +351,19 @@ export const PerformanceDetailPage: React.FC = () => {
                   </PopoverContent>
                 </Popover>
                 {errors.datetime && (
-                  <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                  <p className="text-xs text-[#D92020]" role="alert">
                     {errors.datetime.message}
                   </p>
                 )}
               </div>
 
               <div className="space-y-1.5 flex-1">
-                <Label style={{ color: '#333333' }}>상태</Label>
+                <Label className="text-[#333333]">상태</Label>
                 <Controller
                   control={control}
                   name="status"
                   render={({ field }) => (
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      disabled={isPending}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                       <SelectTrigger className="w-full data-[placeholder]:text-gray-400">
                         <SelectValue placeholder="상태를 선택해주세요." />
                       </SelectTrigger>
@@ -342,7 +378,7 @@ export const PerformanceDetailPage: React.FC = () => {
                   )}
                 />
                 {errors.status && (
-                  <p className="text-xs" style={{ color: '#D92020' }} role="alert">
+                  <p className="text-xs text-[#D92020]" role="alert">
                     {errors.status.message}
                   </p>
                 )}
@@ -353,16 +389,12 @@ export const PerformanceDetailPage: React.FC = () => {
             <Button
               type="submit"
               disabled={isPending}
-              className="mt-2 w-full h-10 text-sm font-medium rounded-lg"
-              style={{
-                background: 'linear-gradient(135deg, #2977DC, #6A9DE0)',
-              }}
+              className="mt-2 w-full h-10 text-sm font-medium rounded-lg bg-gradient-to-br from-[#2977DC] to-[#6A9DE0]"
             >
               {isPending ? (
                 <span className="flex items-center gap-2">
                   <span
-                    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-transparent"
-                    style={{ borderTopColor: 'currentColor' }}
+                    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-transparent border-t-current"
                     aria-hidden="true"
                   />
                   수정 중…
@@ -374,16 +406,15 @@ export const PerformanceDetailPage: React.FC = () => {
           </form>
         ) : (
           /* 보기 모드 */
-          <div className="flex flex-col gap-5 w-full max-w-2xl">
+          <div className="flex flex-col gap-5 w-full">
             {/* Title + Status + Edit Button */}
             <div className="flex items-start justify-between gap-3">
-              <h1 className="text-2xl font-bold" style={{ color: '#222222' }}>
+              <h1 className="text-2xl font-bold text-[#222222]">
                 {data.name}
               </h1>
               <div className="flex items-center gap-2">
                 <span
-                  className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
-                  style={{ background: statusStyle.bg, color: statusStyle.color }}
+                  className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle.className}`}
                 >
                   {statusLabel}
                 </span>
@@ -393,70 +424,96 @@ export const PerformanceDetailPage: React.FC = () => {
                     onClick={() => setEditing(true)}
                     className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
                   >
-                    <Pencil size={16} style={{ color: '#5A5A5A' }} />
+                    <Pencil size={16} className="text-[#5A5A5A]" />
                   </button>
                 )}
               </div>
             </div>
 
             {/* Description */}
-            {data.description && (
-              <p style={{ color: '#5A5A5A' }}>{data.description}</p>
-            )}
+            {data.description && <p className="text-[#5A5A5A]">{data.description}</p>}
 
             {/* Meta Info */}
-            <div className="flex flex-col gap-3 text-sm" style={{ color: '#5A5A5A' }}>
+            <div className="flex flex-col gap-3 text-sm text-[#5A5A5A]">
               <div className="flex items-center gap-2">
-                <Calendar size={16} style={{ color: '#A9A9A9' }} />
+                <Calendar size={16} className="text-[#A9A9A9]" />
                 <span>{dateStr}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={16} style={{ color: '#A9A9A9' }} />
+                <Clock size={16} className="text-[#A9A9A9]" />
                 <span>{timeStr}</span>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin size={16} style={{ color: '#A9A9A9' }} />
+                <MapPin size={16} className="text-[#A9A9A9]" />
                 <span>{data.location}</span>
               </div>
             </div>
 
-            {/* Videos */}
-            {data.videos.length > 0 && (
-              <div className="flex flex-col gap-3 pt-2">
-                <div className="flex items-center gap-2 text-base font-semibold" style={{ color: '#222222' }}>
-                  <Video size={18} style={{ color: '#A9A9A9' }} />
-                  <span>YouTube 영상 ({data.videos.length})</span>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {data.videos.map((video) => (
-                    <a
-                      key={video.id}
-                      href={`https://www.youtube.com/watch?v=${video.videoId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-3 rounded-lg border border-gray-100 hover:border-[#2977DC] transition-colors"
-                    >
-                      <img
-                        src={video.thumbnailUrl}
-                        alt={video.title}
-                        className="w-36 h-20 rounded-md object-cover shrink-0"
-                      />
-                      <div className="flex flex-col gap-1 min-w-0">
-                        <span className="text-sm font-medium line-clamp-2" style={{ color: '#222222' }}>
-                          {video.title}
-                        </span>
-                        <span className="text-xs" style={{ color: '#5A5A5A' }}>
-                          {video.channelTitle}
-                        </span>
-                        <span className="text-xs" style={{ color: '#A9A9A9' }}>
-                          {video.duration}
-                        </span>
-                      </div>
-                    </a>
-                  ))}
+            {/* Video Management */}
+            <div className="flex flex-col gap-6 pt-2">
+              <div className="flex items-center gap-2 text-base font-semibold text-[#222222]">
+                <Video size={18} className="text-[#A9A9A9]" />
+                <span>영상 관리</span>
+              </div>
+
+              <div className="flex flex-col lg:flex-row gap-6">
+                {showAllVideoList && (
+                  <div className="flex flex-col gap-3 w-full lg:w-[440px] lg:flex-shrink-0">
+                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A]">
+                      전체 영상 목록
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => setShowAllVideoList(false)}
+                      >
+                        <ChevronDown size={14} className="text-[#A9A9A9]" />
+                      </Button>
+                    </h3>
+                    <PerformanceAllVideoList
+                      registeredVideoIds={registeredVideoIds}
+                      onToggleVideo={handleToggleVideo}
+                    />
+                  </div>
+                )}
+                <div className="flex flex-col gap-3 flex-1 min-w-0 lg:flex-shrink-0">
+                  {!showAllVideoList && (
+                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A]">
+                      전체 영상 목록
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => setShowAllVideoList(true)}
+                      >
+                        <ChevronUp size={14} className="text-[#A9A9A9]" />
+                      </Button>
+                    </h3>
+                    // <button
+                    //   type="button"
+                    //   className="flex items-center gap-1 text-sm font-semibold"
+                    //   style={{ color: '#5A5A5A' }}
+                    //   onClick={() => setShowAllVideoList(true)}
+                    // >
+                    //   전체 영상 목록
+                    //   <ChevronUp size={14} style={{ color: '#A9A9A9' }} />
+                    // </button>
+                    // <Button
+                    //   variant="ghost"
+                    //   size="icon"
+                    //   className="h-6 w-6"
+                    //   onClick={() => setShowAllVideoList(true)}
+                    // >
+                    //   <ChevronUp size={14} style={{ color: '#A9A9A9' }} />
+                    // </Button>
+                  )}
+                  <h3 className="text-sm font-semibold text-[#5A5A5A]">
+                    등록한 영상
+                  </h3>
+                  <PerformanceRegisteredVideos performanceId={data.id} />
                 </div>
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>

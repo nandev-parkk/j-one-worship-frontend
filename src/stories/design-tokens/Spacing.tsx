@@ -44,11 +44,8 @@ export const Spacing: React.FC = () => {
             </div>
             <div className="flex-1">
               <div
-                className="h-6 rounded-md"
-                style={{
-                  width: `${Math.max(token.px, 4)}px`,
-                  backgroundColor: 'var(--design-blue-500)',
-                }}
+                className="h-6 rounded-md [width:${Math.max(token.px, 4)}px]"
+                style={{ backgroundColor: 'var(--design-blue-500)' }}
               />
             </div>
             <div className="w-16 shrink-0 text-right text-xs font-mono text-gray-400">
