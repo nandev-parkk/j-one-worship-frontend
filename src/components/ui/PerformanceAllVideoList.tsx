@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { YouTubeVideoPreview } from '@/components/ui/YouTubeVideoPreview'
 import {
-  useListAllYouTubeVideos,
+  useListYouTubeVideos,
   useRegisterYouTubeVideo,
   youtubeVideoKeys,
 } from '@/hooks/useYouTubeVideos'
@@ -32,14 +32,12 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
     return () => clearTimeout(timer)
   }, [search])
 
-  // Fetch all videos
-  const { data, isLoading } = useListAllYouTubeVideos()
-  const allVideos = data?.data ?? []
-
-  // Filter by title
-  const filtered = allVideos.filter((video) =>
-    (video.title ?? '').toLowerCase().includes(debouncedSearch.toLowerCase()),
-  )
+  // Server-side search
+  const { data, isLoading } = useListYouTubeVideos({
+    limit: 0,
+    search: debouncedSearch || undefined,
+  })
+  const videos = data?.data ?? []
 
   // Register new video mutation
   const queryClient = useQueryClient()
@@ -95,11 +93,11 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
       </div>
 
       <div className="max-h-[300px] md:max-h-[400px] overflow-y-auto py-2">
-        {filtered.length === 0 ? (
+        {videos.length === 0 ? (
           <div className="py-8 text-center text-sm text-[#A9A9A9]">영상이 없습니다.</div>
         ) : (
           <div className="flex flex-col">
-            {filtered.map((video) => (
+            {videos.map((video) => (
               <PerformanceVideoListItem
                 key={video.id}
                 video={video}
@@ -119,7 +117,7 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
           setShowAddDialog(open)
         }}
       >
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-[calc(100%-4rem)] sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>영상 등록</DialogTitle>
           </DialogHeader>

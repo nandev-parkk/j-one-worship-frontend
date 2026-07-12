@@ -2,15 +2,17 @@ import axios from 'axios';
 import { useAuthStore } from '@/stores';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  baseURL: '/api',
+  // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   headers: { 'Content-Type': 'application/json' },
 });
 
 // Separate instance to avoid re-entering the interceptor on refresh requests
 const refreshApi = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  baseURL: '/api',
+  // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   headers: { 'Content-Type': 'application/json' },
-});
+})
 
 let isRefreshing = false;
 type Resolver = (token: string) => void;
