@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router'
-import { MainLayout } from '@/components/ui/MainLayout'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -139,7 +138,7 @@ export const YouTubeVideoListPage = () => {
   )
 
   return (
-    <MainLayout>
+    <>
       <div className="flex flex-col gap-6 w-full px-6 py-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-[#222222]">
@@ -231,7 +230,7 @@ export const YouTubeVideoListPage = () => {
           setShowAddDialog(open)
         }}
       >
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-[calc(100%-4rem)] sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>영상 등록</DialogTitle>
           </DialogHeader>
@@ -272,6 +271,6 @@ export const YouTubeVideoListPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </MainLayout>
+    </>
   )
 }

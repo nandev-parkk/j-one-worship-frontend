@@ -21,7 +21,6 @@ import {
 } from '@/hooks/usePerformances'
 import { PerformanceAllVideoList } from '@/components/ui/PerformanceAllVideoList'
 import { PerformanceRegisteredVideos } from '@/components/ui/PerformanceRegisteredVideos'
-import { MainLayout } from '@/components/ui/MainLayout'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { useGetPerformance, useUpdatePerformance } from '@/hooks/usePerformances'
 import type { PerformanceStatus } from '@/lib/performance-types'
@@ -165,28 +164,24 @@ export const PerformanceDetailPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <MainLayout>
         <div className="flex flex-1 items-center justify-center">
           <LoadingSpinner />
         </div>
-      </MainLayout>
     )
   }
 
   if (isError || !data) {
     return (
-      <MainLayout>
         <div className="flex flex-col items-center gap-4 py-24">
           <div className="text-sm text-[#5A5A5A]">공연 정보를 불러오지 못했습니다.</div>
           <button
             type="button"
-            onClick={() => navigate('/performances')}
+            onClick={() => navigate(-1)}
             className="text-sm font-medium text-[#2977DC]"
           >
             공연 목록으로 돌아가기
           </button>
         </div>
-      </MainLayout>
     )
   }
 
@@ -205,13 +200,12 @@ export const PerformanceDetailPage: React.FC = () => {
   })
 
   return (
-    <MainLayout>
       <div className="flex flex-col gap-6 w-full px-4 py-4 md:px-6 md:py-6">
         {/* Back Button + Title */}
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => navigate('/performances')}
+            onClick={() => navigate(-1)}
             className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
           >
             <ArrowLeft size={18} className="text-[#333333]" />
@@ -509,6 +503,5 @@ export const PerformanceDetailPage: React.FC = () => {
           </div>
         )}
       </div>
-    </MainLayout>
   )
 }

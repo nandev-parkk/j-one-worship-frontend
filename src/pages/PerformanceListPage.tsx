@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router';
-import { MainLayout } from '@/components/ui/MainLayout';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -70,7 +69,7 @@ export const PerformanceListPage = () => {
   const meta = data?.meta;
 
   return (
-    <MainLayout>
+    <>
       <div className="flex flex-col gap-6 w-full px-6 py-6">
         <h2 className="text-xl font-bold text-[#222222]">
           공연 목록
@@ -150,6 +149,6 @@ export const PerformanceListPage = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </MainLayout>
+    </>
   );
 };

@@ -14,7 +14,6 @@ import { ArrowLeft, Calendar as CalendarIcon } from 'lucide-react';
 import { createPerformanceSchema, type CreatePerformanceInput } from '@/lib/performance-schema';
 import { useCreatePerformance } from '@/hooks/usePerformances';
 import { useAuthStore } from '@/stores';
-import { MainLayout } from '@/components/ui/MainLayout';
 
 const statusOptions: { value: string; label: string }[] = [
   { value: 'upcoming', label: '예정' },
@@ -103,8 +102,7 @@ export const PerformanceCreatePage: React.FC = () => {
   };
 
   return (
-    <MainLayout>
-      <div className="flex flex-col gap-6 w-full px-6 py-6">
+    <div className="flex flex-col gap-6 w-full px-6 py-6">
         {/* Back Icon + Title */}
         <div className="flex items-center gap-3">
           <button
@@ -295,7 +293,6 @@ export const PerformanceCreatePage: React.FC = () => {
             )}
           </Button>
         </form>
-      </div>
-    </MainLayout>
+    </div>
   );
 };

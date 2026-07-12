@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { useAuthStore, useSidebarStore } from '@/stores'
 import { Music, Video, LogOut, ChevronLeft } from 'lucide-react'
 import logo from '/public/logo.png'
@@ -79,13 +79,14 @@ export const SidebarItem: React.FC<{ item: MenuItem; isActive: boolean; collapse
 
 export const Sidebar: React.FC = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const logout = useAuthStore((state) => state.logout)
   const sidebarCollapsed = useSidebarStore((state) => state.sidebarCollapsed)
   const toggleSidebarCollapse = useSidebarStore.getState().toggleSidebarCollapse
 
   const handleLogout = () => {
     logout()
-    window.location.href = '/login'
+    navigate('/login', { replace: true })
   }
 
   return (

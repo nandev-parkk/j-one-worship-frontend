@@ -1,35 +1,35 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router'
+import { Routes, Route, Navigate, Outlet } from 'react-router'
+import type { ReactNode } from 'react'
 import { LoginPage } from '@/pages/LoginPage'
 import { PerformanceListPage } from '@/pages/PerformanceListPage'
 import { YouTubeVideoListPage } from '@/pages/YouTubeVideoListPage'
 import { PerformanceDetailPage } from '@/pages/PerformanceDetailPage'
 import { PerformanceCreatePage } from '@/pages/PerformanceCreatePage'
+import { MainLayout } from '@/components/ui/MainLayout'
 import { useAuthStore } from '@/stores'
 
-export function AppRoutes() {
+const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = useAuthStore((state) => state.token)
-  const location = useLocation()
-  const isLogin = location.pathname === '/login'
+  return token ? <>{children}</> : <Navigate to="/login" />
+}
 
-  // 미인증 시 로그인 페이지 외 접근 차단
-  if (!token && !isLogin) {
-    return <Navigate to="/login" replace />
-  }
+const AuthRoute = ({ children }: { children: ReactNode }) => {
+  const token = useAuthStore((state) => state.token)
+  return token ? <Navigate to="/performances" replace /> : <>{children}</>
+}
 
-  // 인증 시 로그인 페이지 접근 차단
-  if (token && isLogin) {
-    return <Navigate to="/" replace />
-  }
-
+export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/performances" replace />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/performances" element={<PerformanceListPage />} />
-      <Route path="/performances/create" element={<PerformanceCreatePage />} />
-      <Route path="/youtube-videos" element={<YouTubeVideoListPage />} />
-      <Route path="/performances/:id" element={<PerformanceDetailPage />} />
-      <Route path="*" element={<div>404 - Not Found</div>} />
+      <Route path="/login" element={<AuthRoute><LoginPage /></AuthRoute>} />
+      <Route element={<PrivateRoute><MainLayout><Outlet /></MainLayout></PrivateRoute>}>
+        <Route index element={<Navigate to="/performances" replace />} />
+        <Route path="/performances" element={<PerformanceListPage />} />
+        <Route path="/performances/create" element={<PerformanceCreatePage />} />
+        <Route path="/performances/:id" element={<PerformanceDetailPage />} />
+        <Route path="/youtube-videos" element={<YouTubeVideoListPage />} />
+        <Route path="*" element={<div>404 - Not Found</div>} />
+      </Route>
     </Routes>
   )
 }
