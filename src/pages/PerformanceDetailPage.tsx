@@ -94,19 +94,12 @@ export const PerformanceDetailPage: React.FC = () => {
     [registeredVideoIds, parsedId, addVideoMutation, removeVideoMutation],
   )
 
-  useEffect(() => {
-    if (!data) return
-    const date = new Date(data.datetime)
-    setSelectedDate(date)
-    const timeStr = date.toTimeString().substring(0, 8)
-    setSelectedTime(timeStr)
-  }, [data])
-
   const {
     control,
     register,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdatePerformanceInput>({
     resolver: zodResolver(updatePerformanceSchema),
@@ -118,6 +111,21 @@ export const PerformanceDetailPage: React.FC = () => {
       status: data?.status,
     },
   })
+
+  useEffect(() => {
+    if (!data) return
+    const date = new Date(data.datetime)
+    setSelectedDate(date)
+    const timeStr = date.toTimeString().substring(0, 8)
+    setSelectedTime(timeStr)
+    reset({
+      name: data.name,
+      description: data.description,
+      datetime: data.datetime,
+      location: data.location,
+      status: data.status,
+    })
+  }, [data, reset])
 
   useEffect(() => {
     if (selectedDate) {
@@ -223,6 +231,15 @@ export const PerformanceDetailPage: React.FC = () => {
                 onClick={() => {
                   setEditing(false)
                   setFieldError(null)
+                  if (data) {
+                    reset({
+                      name: data.name,
+                      description: data.description,
+                      datetime: data.datetime,
+                      location: data.location,
+                      status: data.status,
+                    })
+                  }
                 }}
                 className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
               >
@@ -447,13 +464,13 @@ export const PerformanceDetailPage: React.FC = () => {
               <div className="flex flex-col lg:flex-row gap-6">
                 {showAllVideoList && (
                   <div className="flex flex-col gap-3 w-full lg:w-[440px] lg:flex-shrink-0">
-                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A]">
+                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A] cursor-pointer" onClick={() => setShowAllVideoList(false)}>
                       전체 영상 목록
                       <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6"
-                        onClick={() => setShowAllVideoList(false)}
+                        onClick={(e) => { e.stopPropagation(); setShowAllVideoList(false); }}
                       >
                         <ChevronDown size={14} className="text-[#A9A9A9]" />
                       </Button>
@@ -466,13 +483,13 @@ export const PerformanceDetailPage: React.FC = () => {
                 )}
                 <div className="flex flex-col gap-3 flex-1 min-w-0 lg:flex-shrink-0">
                   {!showAllVideoList && (
-                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A]">
+                    <h3 className="flex items-center gap-1 text-sm font-semibold text-[#5A5A5A] cursor-pointer" onClick={() => setShowAllVideoList(true)}>
                       전체 영상 목록
                       <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6"
-                        onClick={() => setShowAllVideoList(true)}
+                        onClick={(e) => { e.stopPropagation(); setShowAllVideoList(true); }}
                       >
                         <ChevronUp size={14} className="text-[#A9A9A9]" />
                       </Button>

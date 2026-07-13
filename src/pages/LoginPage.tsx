@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label'
 import { useLogin } from '@/hooks/useAuth'
 import { loginSchema, type LoginSchema } from '@/lib/auth-schema'
 import { Eye, EyeOff } from 'lucide-react'
-import logo from '/public/logo.png'
 import * as React from 'react'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */
@@ -134,7 +133,7 @@ const LoginForm: React.FC = () => {
     <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-16 w-[480px] xl:w-[520px]">
       {/* Logo — shown on all screen sizes */}
       <div className="mb-8 flex flex-col items-center">
-        <img src={logo} alt="logo" className="w-[80px]" />
+        <img src="/logo.png" alt="logo" className="w-[80px]" />
       </div>
 
       {/* Heading */}

@@ -5,7 +5,6 @@ import { X, LogOut } from 'lucide-react'
 import { useSidebarStore, useAuthStore } from '@/stores'
 import { menuItems, SidebarItem } from '@/components/ui/Sidebar'
 import { useLocation, useNavigate } from 'react-router'
-import logo from '/public/logo.png'
 
 export const MobileSidebar: React.FC = () => {
   const { open, close } = useSidebarStore()
@@ -43,13 +42,13 @@ export const MobileSidebar: React.FC = () => {
 
           {/* Brand */}
           <div className="flex flex-col items-center gap-1.5 px-6 pt-8 pb-8">
-            <img src={logo} alt="logo" className="w-[80px]" />
+            <img src="/logo.png" alt="logo" className="w-[80px]" />
           </div>
 
           {/* Menu */}
           <nav className="flex-1 px-4 space-y-1">
             {menuItems.map((item) => (
-              <SidebarItem key={item.path} item={item} isActive={location.pathname === item.path} />
+              <SidebarItem key={item.path} item={item} isActive={location.pathname === item.path || location.pathname.startsWith(item.path + '/')} />
             ))}
           </nav>
 

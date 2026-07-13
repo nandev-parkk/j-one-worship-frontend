@@ -1,7 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router'
 import { useAuthStore, useSidebarStore } from '@/stores'
-import { Music, Video, LogOut, ChevronLeft } from 'lucide-react'
-import logo from '/public/logo.png'
+import { Music, Video, LogOut, ChevronLeft, User } from 'lucide-react'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */
 
@@ -47,8 +46,7 @@ interface MenuItem {
 export const menuItems: MenuItem[] = [
   { label: 'Performances', path: '/performances', icon: Music },
   { label: 'Youtube Videos', path: '/youtube-videos', icon: Video },
-  // { label: 'Members', path: '/members', icon: Users },
-  // { label: 'Account', path: '/account', icon: User },
+  { label: 'Account', path: '/account', icon: User },
 ]
 
 /* ──────────────────────────── Sidebar Item ──────────────────────────── */
@@ -97,7 +95,7 @@ export const Sidebar: React.FC = () => {
     >
       {/* Brand */}
       <div className={`flex flex-col items-center gap-1.5 px-6 pt-8 pb-8 ${sidebarCollapsed ? 'hidden' : ''}`}>
-        <img src={logo} alt="logo" className="w-[80px]" />
+        <img src="/logo.png" alt="logo" className="w-[80px]" />
         {/*<h1 className="text-xl font-bold tracking-tight text-[#222]">*/}
         {/*  J-One Worship*/}
         {/*</h1>*/}

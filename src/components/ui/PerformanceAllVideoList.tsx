@@ -69,7 +69,7 @@ export const PerformanceAllVideoList: React.FC<PerformanceAllVideoListProps> = (
   if (isLoading) return <div className="text-sm text-[#A9A9A9]">로딩 중...</div>
 
   return (
-    <div className="flex flex-col border border-gray-200 rounded-lg">
+    <div className="flex flex-col border border-gray-200 rounded-lg overflow-hidden">
       {/* Sticky Header */}
       <div className="top-0 z-10 bg-white flex items-center gap-2 p-3 border-b border-gray-200">
         <Search size={16} className="text-[#A9A9A9]" />

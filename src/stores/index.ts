@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import queryClient from '@/lib/query-client';
 import type { UserInfo } from '@/lib/auth-types';
 
 interface AuthState {
@@ -26,6 +27,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_refresh_token');
     localStorage.removeItem('auth_user');
+    queryClient.clear();
     set({ token: null, refreshToken: null, user: null });
   },
 }));

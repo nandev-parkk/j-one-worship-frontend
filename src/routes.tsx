@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { LoginPage } from '@/pages/LoginPage'
 import { PerformanceListPage } from '@/pages/PerformanceListPage'
 import { YouTubeVideoListPage } from '@/pages/YouTubeVideoListPage'
+import { AccountPage } from '@/pages/AccountPage'
 import { PerformanceDetailPage } from '@/pages/PerformanceDetailPage'
 import { PerformanceCreatePage } from '@/pages/PerformanceCreatePage'
 import { MainLayout } from '@/components/ui/MainLayout'
@@ -28,6 +29,7 @@ export function AppRoutes() {
         <Route path="/performances/create" element={<PerformanceCreatePage />} />
         <Route path="/performances/:id" element={<PerformanceDetailPage />} />
         <Route path="/youtube-videos" element={<YouTubeVideoListPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<div>404 - Not Found</div>} />
       </Route>
     </Routes>
