@@ -37,7 +37,7 @@ export const PerformanceRegisteredVideos: React.FC<PerformanceRegisteredVideosPr
     setSearchParams((prev) => {
       prev.set('rvpage', '1');
       return prev;
-    });
+    }, { replace: true });
   }, [debouncedSearch, userId]);
 
   // Set page via query string
@@ -46,7 +46,7 @@ export const PerformanceRegisteredVideos: React.FC<PerformanceRegisteredVideosPr
       setSearchParams((prev) => {
         prev.set('rvpage', String(newPage));
         return prev;
-      });
+      }, { replace: true });
     },
     [],
   );

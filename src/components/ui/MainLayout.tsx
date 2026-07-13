@@ -3,7 +3,6 @@ import { MobileSidebar } from '@/components/ui/MobileSidebar'
 import { Footer } from '@/components/ui/Footer'
 import { useSidebarStore } from '@/stores'
 import { Menu } from 'lucide-react'
-import logo from '/public/logo.png'
 import * as React from 'react'
 
 interface MainLayoutProps {
@@ -32,7 +31,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <Menu size={24} className="text-[#222]" />
           </button>
           <div className="flex items-center gap-1.5">
-            <img src={logo} alt="logo" className="w-[80px]" />
+            <img src="/logo.png" alt="logo" className="w-[80px]" />
           </div>
           <div className="w-10" />
         </header>

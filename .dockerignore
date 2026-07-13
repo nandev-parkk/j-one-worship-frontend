@@ -4,3 +4,4 @@ dist
 .git
 .env.*
 *.tar
+TODO.md
