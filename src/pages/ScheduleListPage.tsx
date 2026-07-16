@@ -208,10 +208,7 @@ export const ScheduleListPage = () => {
     <div className="flex flex-col gap-6 w-full px-4 py-4 md:px-6 md:py-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <CalendarIcon className="h-5 w-5 text-[#2977DC]" />
-          <h1 className="text-xl font-semibold text-[#2D2D2D]">스케줄 관리</h1>
-        </div>
+        <h1 className="text-2xl font-bold text-[#222222]">스케줄 관리</h1>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
