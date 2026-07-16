@@ -645,7 +645,7 @@ function SlideOverPanel({
                       <PopoverContent className="w-auto p-0" align="start" collisionPadding={8}>
                         <Calendar
                           mode="single"
-                          selected={startDate}
+                          selected={startDate ?? undefined}
                           onSelect={handleStartDateSelect}
                           showTimePicker
                           time={startTime}
@@ -682,7 +682,7 @@ function SlideOverPanel({
                       <PopoverContent className="w-auto p-0" align="start" collisionPadding={8}>
                         <Calendar
                           mode="single"
-                          selected={endDate}
+                          selected={endDate ?? undefined}
                           onSelect={handleEndDateSelect}
                           showTimePicker
                           time={endTime}

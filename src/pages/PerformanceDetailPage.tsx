@@ -120,7 +120,7 @@ export const PerformanceDetailPage: React.FC = () => {
     setSelectedTime(timeStr)
     reset({
       name: data.name,
-      description: data.description,
+      description: data.description ?? undefined,
       datetime: data.datetime,
       location: data.location,
       status: data.status,
@@ -234,7 +234,7 @@ export const PerformanceDetailPage: React.FC = () => {
                   if (data) {
                     reset({
                       name: data.name,
-                      description: data.description,
+                      description: data.description ?? undefined,
                       datetime: data.datetime,
                       location: data.location,
                       status: data.status,
