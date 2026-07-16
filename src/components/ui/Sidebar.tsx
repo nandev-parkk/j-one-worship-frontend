@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router'
 import { useAuthStore, useSidebarStore } from '@/stores'
-import { Music, Video, LogOut, ChevronLeft, User } from 'lucide-react'
+import { Music, Video, LogOut, ChevronLeft, User, Calendar } from 'lucide-react'
 
 /* ──────────────────────────── Semicolon Cross Mark ──────────────────────────── */
 
@@ -46,6 +46,7 @@ interface MenuItem {
 export const menuItems: MenuItem[] = [
   { label: 'Performances', path: '/performances', icon: Music },
   { label: 'Youtube Videos', path: '/youtube-videos', icon: Video },
+  { label: 'Schedule', path: '/schedules', icon: Calendar },
   { label: 'Account', path: '/account', icon: User },
 ]
 

@@ -71,9 +71,9 @@ export const PerformanceListPage = () => {
   return (
     <>
       <div className="flex flex-col gap-6 w-full px-6 py-6">
-        <h2 className="text-xl font-bold text-[#222222]">
+        <h1 className="text-2xl font-bold text-[#222222]">
           공연 목록
-        </h2>
+        </h1>
 
         {user?.role === 'admin' && (
           <div className="flex justify-end">

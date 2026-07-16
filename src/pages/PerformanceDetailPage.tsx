@@ -218,7 +218,7 @@ export const PerformanceDetailPage: React.FC = () => {
           >
             <ArrowLeft size={18} className="text-[#333333]" />
           </button>
-          <h2 className="text-xl font-bold text-[#222222]">공연 상세</h2>
+          <h1 className="text-2xl font-bold text-[#222222]">공연 상세</h1>
         </div>
 
         {editing ? (

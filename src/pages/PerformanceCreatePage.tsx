@@ -112,9 +112,9 @@ export const PerformanceCreatePage: React.FC = () => {
           >
             <ArrowLeft size={18} className="text-[#333333]" />
           </button>
-          <h2 className="text-xl font-bold text-[#222222]">
+          <h1 className="text-2xl font-bold text-[#222222]">
             공연 생성
-          </h2>
+          </h1>
         </div>
 
         {/* Form */}

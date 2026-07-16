@@ -141,9 +141,9 @@ export const YouTubeVideoListPage = () => {
     <>
       <div className="flex flex-col gap-6 w-full px-6 py-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-[#222222]">
+          <h1 className="text-2xl font-bold text-[#222222]">
             YouTube 영상 목록
-          </h2>
+          </h1>
           <Button
             onClick={() => setShowAddDialog(true)}
             className="h-9 text-sm font-medium rounded-lg bg-gradient-to-br from-[#2977DC] to-[#6A9DE0]"
